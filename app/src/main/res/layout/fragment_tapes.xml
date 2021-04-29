@@ -3,16 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TapesFragment">
+    tools:context=".fragments.TapesFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/firstFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:text="Tapes"
         android:textColor="#0C0C0C"
-        android:textSize="40sp"
-        android:layout_centerInParent="true"/>
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/articleTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="click"
+        android:text="Статья One" />
 
 </RelativeLayout>
