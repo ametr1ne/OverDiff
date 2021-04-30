@@ -1,12 +1,13 @@
 package com.ametr1ne.overdiff;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-
+import com.ametr1ne.overdiff.fragments.ProfileFragment;
+import com.ametr1ne.overdiff.fragments.TapesFragment;
+import com.ametr1ne.overdiff.utils.ArticleActionTask;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new TapesFragment(this)).commit();
+                new TapesFragment()).commit();
 
+
+        new ArticleActionTask().execute();
 
     }
 
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.tapes:
-                        selectedFragment = new TapesFragment(this);
+                        selectedFragment = new TapesFragment();
                         break;
                     case R.id.profile:
                         selectedFragment = new ProfileFragment();
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+/*
     public void authClick(View view) {
 
 
@@ -58,18 +61,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                 try {
-                   /* urlConnection.setReadTimeout(15000   );
-                    urlConnection.setConnectTimeout(15000   );*/
+                   *//* urlConnection.setReadTimeout(15000   );
+                    urlConnection.setConnectTimeout(15000   );*//*
 
                     urlConnection.setRequestMethod("POST");
 
                     System.out.println("TEST::: "+urlConnection.getRequestMethod());
 
-                  /*  urlConnection.setDoInput(true);
-                    urlConnection.setDoOutput(true);*/
+                  *//*  urlConnection.setDoInput(true);
+                    urlConnection.setDoOutput(true);*//*
 
-                    /*urlConnection.setRequestProperty("login","undframe");
-                    urlConnection.setRequestProperty("password","pass");*/
+                    *//*urlConnection.setRequestProperty("login","undframe");
+                    urlConnection.setRequestProperty("password","pass");*//*
 
 
                     //urlConnection.getOutputStream().write("/api/auth".getBytes());
@@ -126,5 +129,5 @@ public class MainActivity extends AppCompatActivity {
                 } finally {
                     urlConnection.disconnect();
                 }
-            };
+            };*/
 }

@@ -2,7 +2,10 @@ package com.ametr1ne.overdiff.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ametr1ne.overdiff.ListAdapter;
 import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
 import com.ametr1ne.overdiff.utils.ImageLoadTask;
@@ -29,30 +33,21 @@ import java.net.URL;
 public class TapesFragment extends Fragment {
 
 
-    private MainActivity mainActivity;
-
-    public TapesFragment(MainActivity mainActivity) {
-        // Required empty public constructor
-        this.mainActivity = mainActivity;
-    }
-
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tapes, container, false);
+        View view = inflater.inflate(R.layout.recycler_view, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        ListAdapter listAdapter = new ListAdapter();
+        recyclerView.setAdapter(listAdapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        return view;
     }
 
-
-
-
+/*
     public void click(View view) {
         mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new ArticleFragment()).commit();
@@ -113,6 +108,6 @@ public class TapesFragment extends Fragment {
             }
 
         }).start();
-    }
+    }*/
 
 }
