@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     android:padding="8dp">
 
   <TextView
@@ -16,10 +17,10 @@
 
   <ImageView
       android:id="@+id/image_preview"
-      android:tag="image_preview"
       android:layout_width="match_parent"
       android:layout_height="150dp"
       android:layout_marginTop="10dp"
-      android:scaleType="centerCrop" />
+      android:scaleType="centerCrop"
+      android:tag="image_preview" />
 
 </RelativeLayout>
