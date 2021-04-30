@@ -1,31 +1,13 @@
 package com.ametr1ne.overdiff;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.ametr1ne.overdiff.fragments.ArticleFragment;
-import com.ametr1ne.overdiff.fragments.AuthFragment;
-import com.ametr1ne.overdiff.fragments.ProfileFragment;
-import com.ametr1ne.overdiff.fragments.TapesFragment;
-import com.ametr1ne.overdiff.utils.ImageLoadTask;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -144,17 +126,5 @@ public class MainActivity extends AppCompatActivity {
                 } finally {
                     urlConnection.disconnect();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }).start();
-
-    }
-
-    public void authButton(View view) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new AuthFragment()).commit();
-    }
+            };
 }
