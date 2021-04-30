@@ -1,6 +1,11 @@
 package com.ametr1ne.overdiff.models;
 
 
+import com.ametr1ne.overdiff.utils.AuthStatus;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -20,6 +25,11 @@ public class User {
     private Collection<Article> article;
     private Collection<LikeDislike> likeDislikes;
 
+    private String accessToken;
+    private String refreshToken;
+
+
+    private boolean isAuthorization = false;
 
     public Token getToken() {
         return token;
@@ -60,6 +70,8 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+
 
     public void setEmail(String email) {
         this.email = email;
@@ -112,6 +124,14 @@ public class User {
     }
 
 
+    public boolean isAuthorization() {
+        return isAuthorization;
+    }
+
+    public void setAuthorization(boolean authorization) {
+        isAuthorization = authorization;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -143,6 +163,58 @@ public class User {
     }
 
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public static User deserialize(JSONObject jsonObject) {
+
+        try {
+
+            /*
+              json.put("id", user.getId());
+        json.put("username", user.getUsername());
+        json.put("email", user.getEmail());
+        json.put("enabled", user.isEnabled());
+        json.put("ban", user.isBan());
+        json.put("access_token", user.getAccessToken());
+        json.put("refreshToken", user.getRefreshToken());
+
+             */
+
+
+            int authStatus = jsonObject.has("auth_status") ? jsonObject.getInt("auth_status") : AuthStatus.ERROR;
+
+            if(authStatus == AuthStatus.SUCCESSFUL_AUTHORIZATION) {
+                User user = new User();
+                user.setId(jsonObject.getLong("id"));
+                user.setUsername(jsonObject.getString("username"));
+                user.setUsername(jsonObject.getString("email"));
+                user.setEnabled(jsonObject.getBoolean("enabled"));
+                user.setBan(jsonObject.getBoolean("ban"));
+                user.setAccessToken(jsonObject.getString("access_token"));
+                user.setRefreshToken(jsonObject.getString("refresh_token"));
+                user.setAuthorization(true);
+                return user;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
 }

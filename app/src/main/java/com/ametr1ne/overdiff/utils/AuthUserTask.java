@@ -2,9 +2,8 @@ package com.ametr1ne.overdiff.utils;
 
 import android.os.AsyncTask;
 
-import com.ametr1ne.overdiff.models.Article;
+import com.ametr1ne.overdiff.models.User;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,29 +13,34 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
-public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
+public class AuthUserTask extends AsyncTask<Void, Void, User> {
 
 
-    private String articleHash;
-    private Consumer<Article> action;
+    private String username;
+    private String password;
 
-    public ArticleActionTask(String articleHash, Consumer<Article> action) {
-        this.articleHash = articleHash;
+    private Consumer<User> action;
+
+    public AuthUserTask(String username, String password, Consumer<User> action) {
+        this.username = username;
+        this.password = password;
         this.action = action;
     }
 
     @Override
-    protected Article doInBackground(Void... voids) {
+    protected User doInBackground(Void... voids) {
 
 
         try {
-            URL url = new URL("http://10.0.2.2:8081/api/article?id=" + articleHash);
+            URL url = new URL("http://10.0.2.2:8081/api/auth?login="+username+
+                    "&password="+password);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
+
+                urlConnection.setRequestMethod("POST");
+
                 InputStream inputStream;
                 int status = urlConnection.getResponseCode();
 
@@ -55,9 +59,9 @@ public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
                     stringJson.append(line);
                 }
 
-
+                inputStream.close();
                 JSONObject jsonObject = new JSONObject(stringJson.toString());
-                return  Article.deserialize(jsonObject);
+                return  User.deserialize(jsonObject);
 
 
             } catch (JSONException e) {
@@ -76,9 +80,9 @@ public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
     }
 
     @Override
-    protected void onPostExecute(Article result) {
+    protected void onPostExecute(User result) {
         super.onPostExecute(result);
-        if(result!=null) {
+        if(result!=null && result.isAuthorization()) {
             action.accept(result);
         }
     }

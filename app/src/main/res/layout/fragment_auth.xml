@@ -5,63 +5,38 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AuthFragment">
 
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/confirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="301dp"
-        android:inputType="textPhonetic"
-      />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="49dp"
-     >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="224dp"
-        android:layout_marginEnd="346dp"
-        android:layout_marginBottom="12dp"
-        android:text="Логин"
-       />
+        android:layout_marginTop="50dp"
+        android:text="Логин" />
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginEnd="339dp"
-        android:layout_marginBottom="3dp"
-        android:text="Пароль"
-       />
+        android:layout_marginTop="150dp"
+        android:text="Пароль" />
+
+    <EditText
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/authButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="138dp"
-        android:layout_marginEnd="178dp"
-        android:layout_marginBottom="81dp"
-        android:onClick="authClick"
-        android:text="Button"
-        />
-
+        android:layout_marginTop="300dp"
+        android:text="Авторизация" />
 </FrameLayout>

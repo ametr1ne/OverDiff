@@ -1,6 +1,9 @@
 package com.ametr1ne.overdiff.utils;
 
 import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.ametr1ne.overdiff.models.Article;
 
@@ -15,26 +18,26 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
+public class ArticlesActionTask extends AsyncTask<Void, Void, Article[]> {
 
 
-    private String articleHash;
-    private Consumer<Article> action;
+    private Consumer<Article[]> action;
 
-    public ArticleActionTask(String articleHash, Consumer<Article> action) {
-        this.articleHash = articleHash;
+    public ArticlesActionTask(Consumer<Article[]> action) {
         this.action = action;
     }
 
     @Override
-    protected Article doInBackground(Void... voids) {
+    protected Article[] doInBackground(Void... voids) {
 
+        List<Article> articleList = new ArrayList<>();
 
         try {
-            URL url = new URL("http://10.0.2.2:8081/api/article?id=" + articleHash);
+            URL url = new URL("http://10.0.2.2:8081/api/articles");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
                 InputStream inputStream;
@@ -57,7 +60,16 @@ public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
 
 
                 JSONObject jsonObject = new JSONObject(stringJson.toString());
-                return  Article.deserialize(jsonObject);
+
+
+                JSONArray jsonArray = jsonObject.getJSONArray("articles");
+
+                for (int i = 0; !jsonArray.isNull(i); i++) {
+
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    articleList.add(Article.deserialize(obj));
+
+                }
 
 
             } catch (JSONException e) {
@@ -72,15 +84,13 @@ public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
         }
 
 
-        return null;
+        return articleList.toArray(new Article[0]);
     }
 
     @Override
-    protected void onPostExecute(Article result) {
+    protected void onPostExecute(Article[] result) {
         super.onPostExecute(result);
-        if(result!=null) {
-            action.accept(result);
-        }
+        action.accept(result);
     }
 
 }

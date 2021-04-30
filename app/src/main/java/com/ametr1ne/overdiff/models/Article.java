@@ -1,5 +1,11 @@
 package com.ametr1ne.overdiff.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Article {
@@ -18,7 +24,7 @@ public class Article {
 
     private Collection<Comment> comment;
 
-    private User user;
+    private String author;
 
     private Collection<LikeDislike> likeDislikes;
 
@@ -77,12 +83,13 @@ public class Article {
         this.comment = comment;
     }
 
-    public User getUser() {
-        return user;
+
+    public String getAuthor() {
+        return author;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public int getLikes() {
@@ -106,7 +113,8 @@ public class Article {
     }
 
     public void setIcon(String icon) {
-        this.icon = icon;
+        this.icon = icon.replaceAll("localhost", "10.0.2.2")
+                .replaceAll("\\/", "/");
     }
 
     public Date getDateCreate() {
@@ -143,4 +151,39 @@ public class Article {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public static Article deserialize(JSONObject jsonObject) {
+        Article article = new Article();
+
+        try {
+
+            article.setAuthor(jsonObject.getString("author"));
+            article.setIcon(jsonObject.getString("icon"));
+            article.setDescription(jsonObject.getString("description"));
+            String dateCreate = jsonObject.getString("dateCreate");
+            article.setDateCreate(parseDateTime(dateCreate));
+            article.setHash(jsonObject.getString("hash"));
+            article.setLikes(jsonObject.getInt("likes"));
+            article.setText(jsonObject.getString("text"));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return article;
+    }
+
+
+    private static Date parseDateTime(String dateString) {
+        if (dateString == null) return null;
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        try {
+            return fmt.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
