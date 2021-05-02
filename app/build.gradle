@@ -36,18 +36,14 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.+'
 
-    // https://mvnrepository.com/artifact/xerces/xercesImpl
     implementation group: 'xerces', name: 'xercesImpl', version: '2.12.1'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
-
-    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.65.01'
-    implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
-    implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.4.6'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

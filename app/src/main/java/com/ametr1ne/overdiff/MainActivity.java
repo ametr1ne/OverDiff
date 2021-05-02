@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment;
 import com.ametr1ne.overdiff.fragments.AuthFragment;
 import com.ametr1ne.overdiff.fragments.ProfileFragment;
 import com.ametr1ne.overdiff.fragments.TapesFragment;
+import com.ametr1ne.overdiff.models.User;
 import com.ametr1ne.overdiff.utils.ArticlesActionTask;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,14 +37,18 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.profile:
 
-                        if(UserFactory.getInstance().getCurrentUser().isPresent()){
-                            selectedFragment = new ProfileFragment();
+                        Optional<User> optionalUser = UserFactory.getInstance().getCurrentUser();
+                        if(optionalUser.isPresent()){
+                            selectedFragment = new ProfileFragment(this);
                         }else{
                             selectedFragment = new AuthFragment(this);
                         }
 
                         break;
                 }
+
+
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
                 return true;

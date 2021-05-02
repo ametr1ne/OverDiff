@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.ametr1ne.overdiff.ListAdapter;
 import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
+import com.ametr1ne.overdiff.UserFactory;
 import com.ametr1ne.overdiff.utils.ArticlesActionTask;
 
 import java.util.Arrays;
@@ -35,12 +36,21 @@ public class TapesFragment extends Fragment {
 
         new ArticlesActionTask(articles -> {
             mainActivity.runOnUiThread(() -> {
-                ListAdapter listAdapter = new ListAdapter(mainActivity,Arrays.asList(articles));
-            recyclerView.setAdapter(listAdapter);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-            recyclerView.setLayoutManager(layoutManager);
+                ListAdapter listAdapter = new ListAdapter(mainActivity, Arrays.asList(articles));
+                recyclerView.setAdapter(listAdapter);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(layoutManager);
             });
         }).execute();
+
+        view.findViewById(R.id.new_article).setVisibility(UserFactory.getInstance().getCurrentUser().isPresent() ? View.VISIBLE : View.INVISIBLE);
+
+        view.findViewById(R.id.new_article).setOnClickListener(v -> {
+            mainActivity.runOnUiThread(() -> {
+                mainActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new CreateArticleFragment(mainActivity)).commit();
+            });
+        });
 
         return view;
     }

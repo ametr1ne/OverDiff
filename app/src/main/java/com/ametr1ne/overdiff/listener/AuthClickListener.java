@@ -30,7 +30,7 @@ public class AuthClickListener implements View.OnClickListener {
         UserFactory.getInstance().authCurrentUser(username.get(),password.get(),user -> {
             source.runOnUiThread(() -> {
                 source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
+                        new ProfileFragment(source)).commit();
             });
         });
     }

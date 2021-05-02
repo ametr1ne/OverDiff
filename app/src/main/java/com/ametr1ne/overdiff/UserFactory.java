@@ -2,9 +2,7 @@ package com.ametr1ne.overdiff;
 
 import com.ametr1ne.overdiff.models.User;
 import com.ametr1ne.overdiff.utils.AuthUserTask;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import com.ametr1ne.overdiff.utils.RefreshTokenTask;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -33,6 +31,8 @@ public class UserFactory {
         return userFactory;
     }
 
+
+
     public void authCurrentUser(String user, String password, Consumer<User> action) {
         try {
 
@@ -53,7 +53,20 @@ public class UserFactory {
         }
     }
 
+    public void refreshCurrentUser(Consumer<User> action) {
+        if(currentUser!=null && currentUser.getRefreshToken()!=null){
+            new RefreshTokenTask(currentUser, u->{
+                currentUser = u;
+                action.accept(u);
+            }).execute();
+        }
+    }
+
     public Optional<User> getCurrentUser() {
-        return Optional.ofNullable(currentUser);
+        return currentUser==null || !currentUser.isAuthorization() ? Optional.empty() : Optional.ofNullable(currentUser);
+    }
+
+    public void exit() {
+        currentUser = null;
     }
 }

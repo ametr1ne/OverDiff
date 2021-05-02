@@ -28,6 +28,8 @@ public class User {
     private String accessToken;
     private String refreshToken;
 
+    private int authStatus;
+
 
     private boolean isAuthorization = false;
 
@@ -109,6 +111,14 @@ public class User {
         return comment;
     }
 
+    public int getAuthStatus() {
+        return authStatus;
+    }
+
+    public void setAuthStatus(int authStatus) {
+        this.authStatus = authStatus;
+    }
+
     public void setComment(Collection<Comment> comment) {
         this.comment = comment;
     }
@@ -180,7 +190,7 @@ public class User {
     }
 
     public static User deserialize(JSONObject jsonObject) {
-
+        User user = new User();
         try {
 
             /*
@@ -198,22 +208,21 @@ public class User {
             int authStatus = jsonObject.has("auth_status") ? jsonObject.getInt("auth_status") : AuthStatus.ERROR;
 
             if(authStatus == AuthStatus.SUCCESSFUL_AUTHORIZATION) {
-                User user = new User();
                 user.setId(jsonObject.getLong("id"));
                 user.setUsername(jsonObject.getString("username"));
-                user.setUsername(jsonObject.getString("email"));
+                user.setEmail(jsonObject.getString("email"));
                 user.setEnabled(jsonObject.getBoolean("enabled"));
                 user.setBan(jsonObject.getBoolean("ban"));
                 user.setAccessToken(jsonObject.getString("access_token"));
                 user.setRefreshToken(jsonObject.getString("refresh_token"));
+                user.setAuthStatus(authStatus);
                 user.setAuthorization(true);
-                return user;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return user;
     }
 
 
