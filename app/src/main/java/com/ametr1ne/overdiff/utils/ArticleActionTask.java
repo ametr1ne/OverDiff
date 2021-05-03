@@ -2,6 +2,7 @@ package com.ametr1ne.overdiff.utils;
 
 import android.os.AsyncTask;
 
+import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.models.Article;
 
 import org.json.JSONArray;
@@ -20,7 +21,6 @@ import java.util.function.Consumer;
 
 public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
 
-
     private String articleHash;
     private Consumer<Article> action;
 
@@ -34,7 +34,7 @@ public class ArticleActionTask extends AsyncTask<Void, Void, Article> {
 
 
         try {
-            URL url = new URL("http://10.0.2.2:8081/api/article?id=" + articleHash);
+            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/article?id=" + articleHash);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
                 InputStream inputStream;

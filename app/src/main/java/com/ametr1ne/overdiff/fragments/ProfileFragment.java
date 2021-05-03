@@ -25,7 +25,7 @@ public class ProfileFragment extends Fragment {
 
     public ProfileFragment(MainActivity source) {
         this.source = source;
-        this.user = UserFactory.getInstance().getCurrentUser().orElse(null);
+        this.user = UserFactory.getInstance().getCurrentUser();
     }
 
     @Override
@@ -35,13 +35,10 @@ public class ProfileFragment extends Fragment {
 
         TextView dataView = (TextView) view.findViewById(R.id.profile_data);
         dataView.setVisibility(View.INVISIBLE);
-        if (!JWT.isAlive(user.getAccessToken())) {
+        if (user!=null && user.getAccessToken()!=null && !JWT.isAlive(user.getAccessToken())) {
             UserFactory.getInstance().refreshCurrentUser(user1 -> {
                 if (user1.getAuthStatus() != AuthStatus.SUCCESSFUL_AUTHORIZATION) {
-                    source.runOnUiThread(() -> {
-                        source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new AuthFragment(source)).commit();
-                    });
+                   source.openAuthorizationPage();
                 }
             });
             return view;

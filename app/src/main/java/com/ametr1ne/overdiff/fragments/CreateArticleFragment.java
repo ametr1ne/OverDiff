@@ -20,14 +20,13 @@ import com.ametr1ne.overdiff.R;
 import com.ametr1ne.overdiff.UserFactory;
 import com.ametr1ne.overdiff.encryption.JWT;
 import com.ametr1ne.overdiff.models.User;
-import com.ametr1ne.overdiff.utils.AuthStatus;
+import com.ametr1ne.overdiff.utils.ArticleStatus;
 import com.ametr1ne.overdiff.utils.CreateArticleTask;
 import com.ametr1ne.overdiff.utils.ImageFilePath;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Optional;
 
 public class CreateArticleFragment extends Fragment {
 
@@ -51,21 +50,17 @@ public class CreateArticleFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_article, container, false);
 
-        Optional<User> currentUserOptional = UserFactory.getInstance().getCurrentUser();
-        if (currentUserOptional.isPresent()) {
-            User user = currentUserOptional.get();
-            if (!JWT.isAlive(user.getAccessToken())) {
-                UserFactory.getInstance().refreshCurrentUser(user1 -> {
-                    if (user1.getAuthStatus() != AuthStatus.SUCCESSFUL_AUTHORIZATION) {
-                        source.runOnUiThread(() -> {
-                            source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                    new AuthFragment(source)).commit();
-                        });
-                    }
-                });
-                return view;
-            }
+        User user = UserFactory.getInstance().getCurrentUser();
+        if (user.getAccessToken() != null && !JWT.isAlive(user.getAccessToken())) {
+            UserFactory.getInstance().refreshCurrentUser(user1 -> {
+                if (!user1.isAuthorization()) {
+                    source.openAuthorizationPage();
+                }
+            });
+        }
 
+
+        if (user.isAuthorization()) {
             imageView = (ImageView) view.findViewById(R.id.new_article_img);
             view.findViewById(R.id.new_article_find_img).setOnClickListener(v -> {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -74,10 +69,15 @@ public class CreateArticleFragment extends Fragment {
             });
 
             view.findViewById(R.id.new_article_create).setOnClickListener(v -> {
-                System.out.println("CREATE ARTIVLE");
                 new CreateArticleTask(file, imagePath, bitmap, ((TextView) view.findViewById(R.id.new_article_name)).getText().toString(),
-                        ((TextView) view.findViewById(R.id.new_article_text)).getText().toString())
-                        .execute();
+                        ((TextView) view.findViewById(R.id.new_article_text)).getText().toString(), status -> {
+                    if (status == ArticleStatus.SUCCESSFULLY)
+                        source.runOnUiThread(() -> {
+                            source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    new TapesFragment(source)).commit();
+                        });
+                }).execute();
+
             });
         }
 

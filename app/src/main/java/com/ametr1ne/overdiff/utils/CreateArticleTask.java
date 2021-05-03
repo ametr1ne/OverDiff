@@ -19,8 +19,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class CreateArticleTask extends AsyncTask<Void, Void, String> {
+public class CreateArticleTask extends AsyncTask<Void, Void, Integer> {
 
     String attachmentName;
     String attachmentFileName;
@@ -35,8 +36,10 @@ public class CreateArticleTask extends AsyncTask<Void, Void, String> {
     private String path;
     private File file;
 
+    private Consumer<Integer> action;
 
-    public CreateArticleTask(File file, String path, Bitmap bitmap, String description, String text) {
+
+    public CreateArticleTask(File file, String path, Bitmap bitmap, String description, String text,Consumer<Integer> action) {
         this.file = file;
         this.path = path;
         this.bitmap = bitmap;
@@ -49,36 +52,39 @@ public class CreateArticleTask extends AsyncTask<Void, Void, String> {
 
         this.attachmentName = fileName.split("\\.")[0];
         this.attachmentFileName = fileName;
+        this.action = action;
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected Integer doInBackground(Void... params) {
         try {
 
 
-            User user = UserFactory.getInstance().getCurrentUser().get();
+            User user = UserFactory.getInstance().getCurrentUser();
 
-            HttpURLConnection httpUrlConnection = null;
-            String requestUrl = "http://10.0.2.2:8081/api/createarticle?access_token=" + user.getAccessToken() +
-                    "&description=" + description +
-                    "&text=" + text;
-            URL url = new URL(requestUrl);
-            String charset = "UTF-8";
-            MultipartUtility multipart = new MultipartUtility(requestUrl, charset);
+            if(user.isAuthorization()) {
+                HttpURLConnection httpUrlConnection = null;
+                String requestUrl = "http://"+GlobalProperties.KSITE_ADDRESS+"/api/createarticle?access_token=" + user.getAccessToken() +
+                        "&description=" + description +
+                        "&text=" + text;
+                URL url = new URL(requestUrl);
+                String charset = "UTF-8";
+                MultipartUtility multipart = new MultipartUtility(requestUrl, charset);
 
-            multipart.addFilePart("icon", file);
+                multipart.addFilePart("icon", file);
 
-            List<String> response = multipart.finish();
+                List<String> response = multipart.finish();
 
-            StringBuilder stringJson = new StringBuilder();
+                StringBuilder stringJson = new StringBuilder();
 
-            for (String s : response) {
-                stringJson.append(s);
+                for (String s : response) {
+                    stringJson.append(s);
+                }
+
+                JSONObject jsonObject = new JSONObject(stringJson.toString());
+                return jsonObject.getInt("status");
             }
-
-            JSONObject jsonObject = new JSONObject(stringJson.toString());
-
-            return stringJson.toString();
+            throw new IllegalAccessException("user not authorized");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,12 +92,9 @@ public class CreateArticleTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(Integer result) {
         super.onPostExecute(result);
-
-        System.out.println("RESULT: " + result);
-
-        //  imageView.setImageBitmap(result);
+        action.accept(result);
     }
 
 }

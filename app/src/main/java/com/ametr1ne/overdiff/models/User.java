@@ -31,7 +31,7 @@ public class User {
     private int authStatus;
 
 
-    private boolean isAuthorization = false;
+    private boolean authorization = false;
 
     public Token getToken() {
         return token;
@@ -135,11 +135,11 @@ public class User {
 
 
     public boolean isAuthorization() {
-        return isAuthorization;
+        return authorization;
     }
 
     public void setAuthorization(boolean authorization) {
-        isAuthorization = authorization;
+        this.authorization = authorization;
     }
 
     @Override
@@ -190,7 +190,7 @@ public class User {
     }
 
     public static User deserialize(JSONObject jsonObject) {
-        User user = new User();
+        User user = getInstance();
         try {
 
             /*
@@ -206,6 +206,8 @@ public class User {
 
 
             int authStatus = jsonObject.has("auth_status") ? jsonObject.getInt("auth_status") : AuthStatus.ERROR;
+
+            user.setAuthStatus(authStatus);
 
             if(authStatus == AuthStatus.SUCCESSFUL_AUTHORIZATION) {
                 user.setId(jsonObject.getLong("id"));
@@ -223,6 +225,16 @@ public class User {
         }
 
         return user;
+    }
+
+
+    public static User getInstance(){
+        User user = new User();
+        user.setAuthorization(false);
+        user.setAuthStatus(AuthStatus.NOT_AUTHORIZED);
+
+        return user;
+
     }
 
 

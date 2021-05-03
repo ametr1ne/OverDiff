@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 
 public class AuthUserTask extends AsyncTask<Void, Void, User> {
 
-
     private String username;
     private String password;
 
@@ -34,8 +33,8 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
 
 
         try {
-            URL url = new URL("http://10.0.2.2:8081/api/auth?login="+username+
-                    "&password="+password);
+            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/auth?login=" + username +
+                    "&password=" + password);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
 
@@ -61,9 +60,7 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
 
                 inputStream.close();
                 JSONObject jsonObject = new JSONObject(stringJson.toString());
-                return  User.deserialize(jsonObject);
-
-
+                return User.deserialize(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
@@ -82,9 +79,7 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
     @Override
     protected void onPostExecute(User result) {
         super.onPostExecute(result);
-        if(result!=null && result.isAuthorization()) {
-            action.accept(result);
-        }
+        action.accept(result);
     }
 
 }

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.security.SignatureException;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.crypto.BadPaddingException;
@@ -14,6 +15,8 @@ import javax.crypto.IllegalBlockSizeException;
 
 public class JWT {
     public static boolean isAlive(String token) {
+        Objects.requireNonNull(token);
+
         String[] split = token.split("\\.");
         if (split.length == 3) {
             try {

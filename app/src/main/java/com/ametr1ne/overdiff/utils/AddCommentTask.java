@@ -2,6 +2,7 @@ package com.ametr1ne.overdiff.utils;
 
 import android.os.AsyncTask;
 
+import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.models.User;
 
 import org.json.JSONObject;
@@ -10,24 +11,29 @@ import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class RefreshTokenTask extends AsyncTask<Void, Void, User> {
+public class AddCommentTask extends AsyncTask<Void, Void, Integer> {
 
-    private String refreshToken;
-    private long userId;
-    private Consumer<User> action;
+    private String accessToken;
 
-    public RefreshTokenTask(String getRefreshToken, long userId, Consumer<User> action) {
-        this.refreshToken = getRefreshToken;
-        this.userId = userId;
+    private long articleId;
+    private String comment;
+
+    private Consumer<Integer> action;
+
+    public AddCommentTask(String accessToken, long articleId, String comment, Consumer<Integer> action) {
+        this.accessToken = accessToken;
+        this.articleId = articleId;
+        this.comment = comment;
         this.action = action;
     }
 
     @Override
-    protected User doInBackground(Void... params) {
+    protected Integer doInBackground(Void... params) {
         try {
             HttpURLConnection httpUrlConnection = null;
-            String requestUrl = "http://"+GlobalProperties.KSITE_ADDRESS+"/api/refresh?id=" + userId +
-                    "&refresh_token=" + refreshToken;
+            String requestUrl = "http://"+GlobalProperties.KSITE_ADDRESS+"/api/commentarticle?access_token=" + accessToken    +
+                    "&article_id=" + articleId+
+                    "&comment="+comment;
             String charset = "UTF-8";
             MultipartUtility multipart = new MultipartUtility(requestUrl, charset);
 
@@ -40,15 +46,15 @@ public class RefreshTokenTask extends AsyncTask<Void, Void, User> {
             }
 
             JSONObject jsonObject = new JSONObject(stringJson.toString());
-            return User.deserialize(jsonObject);
+            return Integer.parseInt(jsonObject.getString("status"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return User.getInstance();
+        return null;
     }
 
     @Override
-    protected void onPostExecute(User result) {
+    protected void onPostExecute(Integer result) {
         super.onPostExecute(result);
         action.accept(result);
     }

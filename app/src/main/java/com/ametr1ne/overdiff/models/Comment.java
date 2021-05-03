@@ -1,17 +1,23 @@
 package com.ametr1ne.overdiff.models;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class Comment {
 
     private Long id;
     private String comment;
-    private Article article;
-    private User user;
+    private long articleId;
+    private long authorId;
 
     public Comment() {
     }
+
+
+
 
     public Long getId() {
         return id;
@@ -21,7 +27,6 @@ public class Comment {
         this.id = id;
     }
 
-
     public String getComment() {
         return comment;
     }
@@ -30,20 +35,20 @@ public class Comment {
         this.comment = comment;
     }
 
-    public Article getArticle() {
-        return article;
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    public User getUser() {
-        return user;
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
     @Override
@@ -58,4 +63,20 @@ public class Comment {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public static Comment deserialize(JSONObject jsonObject) {
+        Comment comment = new Comment();
+
+        try {
+            comment.setId(Long.parseLong(jsonObject.getString("id")));
+            comment.setComment(jsonObject.getString("text"));
+            comment.setArticleId(Long.parseLong(jsonObject.getString("article")));
+            comment.setAuthorId(Long.parseLong(jsonObject.getString("author")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return comment;
+    }
+
 }

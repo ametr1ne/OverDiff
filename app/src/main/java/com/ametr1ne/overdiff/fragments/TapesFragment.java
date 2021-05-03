@@ -43,7 +43,7 @@ public class TapesFragment extends Fragment {
             });
         }).execute();
 
-        view.findViewById(R.id.new_article).setVisibility(UserFactory.getInstance().getCurrentUser().isPresent() ? View.VISIBLE : View.INVISIBLE);
+        view.findViewById(R.id.new_article).setVisibility(UserFactory.getInstance().getCurrentUser().isAuthorization() ? View.VISIBLE : View.INVISIBLE);
 
         view.findViewById(R.id.new_article).setOnClickListener(v -> {
             mainActivity.runOnUiThread(() -> {

@@ -1,5 +1,6 @@
 package com.ametr1ne.overdiff.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ public class Article {
     private Date dateCreate;
 
 
-    private Collection<Comment> comment;
+    private List<Comment> comment = new ArrayList<>();
 
     private String author;
 
@@ -63,7 +64,7 @@ public class Article {
         this.hash = hash;
     }
 
-    public Collection<Comment> getComment() {
+    public List<Comment> getComment() {
         if (comment == null)
             setComment(new ArrayList<>());
         return comment;
@@ -79,7 +80,7 @@ public class Article {
         this.likeDislikes = likeDislikes;
     }
 
-    public void setComment(Collection<Comment> comment) {
+    public void setComment(List<Comment> comment) {
         this.comment = comment;
     }
 
@@ -165,7 +166,18 @@ public class Article {
             article.setHash(jsonObject.getString("hash"));
             article.setLikes(jsonObject.getInt("likes"));
             article.setText(jsonObject.getString("text"));
+            article.setId(Long.parseLong(jsonObject.getString("id")));
 
+            JSONArray jsonArray = jsonObject.getJSONArray("comments");
+
+            List<Comment> comments = new ArrayList<>();
+
+            for (int i = 0; !jsonArray.isNull(i); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                comments.add(Comment.deserialize(obj));
+            }
+
+            article.setComment(comments);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.models.Article;
 
 import org.json.JSONArray;
@@ -27,7 +28,7 @@ public class ArticlesActionTask extends AsyncTask<Void, Void, Article[]> {
 
     private Consumer<Article[]> action;
 
-    public ArticlesActionTask(Consumer<Article[]> action) {
+    public ArticlesActionTask(Consumer<Article[]>action) {
         this.action = action;
     }
 
@@ -37,7 +38,7 @@ public class ArticlesActionTask extends AsyncTask<Void, Void, Article[]> {
         List<Article> articleList = new ArrayList<>();
 
         try {
-            URL url = new URL("http://10.0.2.2:8081/api/articles");
+            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/articles");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
                 InputStream inputStream;
