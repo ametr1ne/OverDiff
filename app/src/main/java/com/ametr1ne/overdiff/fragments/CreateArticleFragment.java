@@ -69,13 +69,15 @@ public class CreateArticleFragment extends Fragment {
             });
 
             view.findViewById(R.id.new_article_create).setOnClickListener(v -> {
-                new CreateArticleTask(file, imagePath, bitmap, ((TextView) view.findViewById(R.id.new_article_name)).getText().toString(),
+                new CreateArticleTask(source,file, ((TextView) view.findViewById(R.id.new_article_name)).getText().toString(),
                         ((TextView) view.findViewById(R.id.new_article_text)).getText().toString(), status -> {
                     if (status == ArticleStatus.SUCCESSFULLY)
                         source.runOnUiThread(() -> {
                             source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                     new TapesFragment(source)).commit();
                         });
+
+
                 }).execute();
 
             });
