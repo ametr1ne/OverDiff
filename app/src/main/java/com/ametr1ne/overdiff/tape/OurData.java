@@ -1,4 +1,6 @@
-package com.ametr1ne.overdiff;
+package com.ametr1ne.overdiff.tape;
+
+import com.ametr1ne.overdiff.R;
 
 public class OurData {
     public static String[] titles = new String[] {
