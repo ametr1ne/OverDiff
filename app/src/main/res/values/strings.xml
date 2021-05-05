@@ -2,4 +2,23 @@
     <string name="app_name">Overcoming Difficulties</string>
 
     <string name="title_article">Залита материнская плата</string>
+
+    <string name="settings">Настройки</string>
+    <string name="logout">Выйти</string>
+    <string name="user_name">User name</string>
+    <string name="user_email">example@example.exa</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="switch_theme">switch_theme</string>
+    <string-array name="choose_theme">
+        <item>Как в системе</item>
+        <item>Светлая</item>
+        <item>Темная</item>
+    </string-array>
+
+    <string-array name="choose_theme_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

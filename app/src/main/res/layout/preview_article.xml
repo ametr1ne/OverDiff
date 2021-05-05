@@ -12,6 +12,7 @@
       android:layout_below="@+id/image_preview"
       android:layout_marginTop="16dp"
       android:text="@string/title_article"
+      android:textColor="@color/black"
       android:textSize="20sp"
       android:textStyle="bold" />
 

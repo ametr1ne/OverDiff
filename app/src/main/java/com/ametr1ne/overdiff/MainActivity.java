@@ -1,23 +1,42 @@
 package com.ametr1ne.overdiff;
 
+import androidx.annotation.IntegerRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ametr1ne.overdiff.settings.SettingsActivity;
+import com.ametr1ne.overdiff.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
+    private Button bt_settings;
+    private View btn_theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bt_settings = findViewById(R.id.bt_settings);
+
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        //String appTheme = prefs.getString("@string/switch_theme", "Как в системе");
+
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -43,4 +62,18 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public void onClickSettings (View view) {
+
+        //Intent intent = new Intent(this, SettingsActivity.class);
+       // startActivity(intent);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new SettingsFragment()).commit();
+
+    }
+
+    public void onClickLogout (View view) {
+
+    }
 }
