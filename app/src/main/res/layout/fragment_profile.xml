@@ -57,7 +57,6 @@
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/bt_logout"
         android:id="@+id/exit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,15 +64,9 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/bt_settings"
         android:text="@string/logout"
-        android:onClick="onClickLogout"
         android:background="@drawable/rounder_button"
         android:layout_marginRight="5dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/rounder_button"
-        android:text="Выйти"
         android:textColor="@color/red"
         android:textStyle="bold" />
 

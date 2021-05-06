@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ametr1ne.overdiff.ListAdapter;
+import com.ametr1ne.overdiff.tape.ListAdapter;
 import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
 import com.ametr1ne.overdiff.UserFactory;

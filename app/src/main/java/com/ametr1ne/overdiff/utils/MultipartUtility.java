@@ -81,7 +81,7 @@ public class MultipartUtility {
      */
     public void addFilePart(String fieldName, File uploadFile)
             throws IOException {
-        String fileName = uploadFile.getName();
+        String fileName = uploadFile==null ? "" :uploadFile.getName();
         writer.append("--" + boundary).append(LINE_FEED);
         writer.append(
                 "Content-Disposition: form-data; name=\"" + fieldName
@@ -95,14 +95,16 @@ public class MultipartUtility {
         writer.append(LINE_FEED);
         writer.flush();
 
-        FileInputStream inputStream = new FileInputStream(uploadFile);
-        byte[] buffer = new byte[4096];
-        int bytesRead = -1;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
+        if(uploadFile!=null) {
+            FileInputStream inputStream = new FileInputStream(uploadFile);
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            inputStream.close();
         }
         outputStream.flush();
-        inputStream.close();
 
         writer.append(LINE_FEED);
         writer.flush();

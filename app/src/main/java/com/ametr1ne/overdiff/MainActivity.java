@@ -3,6 +3,7 @@ package com.ametr1ne.overdiff;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,18 +15,13 @@ import com.ametr1ne.overdiff.fragments.AuthFragment;
 import com.ametr1ne.overdiff.fragments.ProfileFragment;
 import com.ametr1ne.overdiff.fragments.TapesFragment;
 import com.ametr1ne.overdiff.models.User;
+import com.ametr1ne.overdiff.settings.SettingsFragment;
 import com.ametr1ne.overdiff.utils.FileProperties;
 import com.ametr1ne.overdiff.utils.GlobalProperties;
 import com.ametr1ne.overdiff.utils.RawProperties;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("REFRESH: "+UserFactory.getInstance().getCurrentUser().getRefreshToken());
 
+    }
+
+    public void onClickSettings (View view) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new SettingsFragment()).commit();
     }
 
     @Override
@@ -113,8 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                 }
-
-
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();

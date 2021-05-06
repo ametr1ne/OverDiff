@@ -1,4 +1,4 @@
-package com.ametr1ne.overdiff;
+package com.ametr1ne.overdiff.tape;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ametr1ne.overdiff.MainActivity;
+import com.ametr1ne.overdiff.R;
 import com.ametr1ne.overdiff.fragments.ArticleFragment;
 import com.ametr1ne.overdiff.models.Article;
 import com.ametr1ne.overdiff.utils.ImageLoadTask;

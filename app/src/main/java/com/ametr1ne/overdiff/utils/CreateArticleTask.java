@@ -12,6 +12,7 @@ import com.ametr1ne.overdiff.models.User;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.function.Consumer;
@@ -25,6 +26,15 @@ public class CreateArticleTask extends AsyncTask<Void, Void, Integer> {
     private File file;
 
     private Consumer<Integer> action;
+
+    private static File emptyFile;
+    static{
+        try {
+            emptyFile = File.createTempFile("temptile", ".tmp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public CreateArticleTask(MainActivity mainActivity, File file, String description, String text, Consumer<Integer> action) {
@@ -44,13 +54,15 @@ public class CreateArticleTask extends AsyncTask<Void, Void, Integer> {
 
             User user = UserFactory.getInstance().getCurrentUser();
 
-            if(user.isAuthorization()) {
-                String requestUrl = "http://"+GlobalProperties.KSITE_ADDRESS+"/api/createarticle?access_token=" + user.getAccessToken() +
+            if (user.isAuthorization()) {
+                String requestUrl = "http://" + GlobalProperties.KSITE_ADDRESS + "/api/createarticle?access_token=" + user.getAccessToken() +
                         "&description=" + description +
                         "&text=" + text;
                 MultipartUtility multipart = new MultipartUtility(requestUrl, Charset.defaultCharset().name());
 
+                if(file!=null)
                 multipart.addFilePart("icon", file);
+
 
                 List<String> response = multipart.finish();
 

@@ -5,11 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.SwitchPreferenceCompat;
 
 import com.ametr1ne.overdiff.R;
 

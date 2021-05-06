@@ -8,36 +8,39 @@ import android.widget.ImageView;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.function.Consumer;
 
 public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
 
-
-
     private String url;
     private ImageView imageView;
+    private Consumer<Exception> exceptionHandler;
 
     public ImageLoadTask(String url, ImageView imageView) {
         this.url = url;
         this.imageView = imageView;
     }
 
+    public ImageLoadTask exceptionHandler(Consumer<Exception> exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
+        return this;
+    }
+
     @Override
     protected Bitmap doInBackground(Void... params) {
         try {
-
-            System.out.println(url);
-
             URL urlConnection = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) urlConnection
                     .openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
+            if(input!=null)
+            return BitmapFactory.decodeStream(input);
         } catch (Exception e) {
-            e.printStackTrace();
+            if(exceptionHandler!=null)
+                exceptionHandler.accept(e);
         }
         return null;
     }
@@ -45,7 +48,8 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
-        imageView.setImageBitmap(result);
+        if (result != null)
+            imageView.setImageBitmap(result);
     }
 
 }

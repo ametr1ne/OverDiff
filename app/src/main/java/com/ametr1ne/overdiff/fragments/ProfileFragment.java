@@ -39,16 +39,22 @@ public class ProfileFragment extends Fragment {
             UserFactory.getInstance().refreshCurrentUser(user1 -> {
                 if (user1.getAuthStatus() != AuthStatus.SUCCESSFUL_AUTHORIZATION) {
                    source.openAuthorizationPage();
+                }else{
+                    loadView(view);
                 }
             });
             return view;
         }
 
-        ((TextView) view.findViewById(R.id.user_name)).setText(user.getUsername());
-        ((TextView) view.findViewById(R.id.user_email)).setText(user.getEmail());
+        loadView(view);
         view.findViewById(R.id.exit_button).setOnClickListener(new ExitClickListener(source));
 
 
         return view;
+    }
+
+    private void loadView(View view) {
+        ((TextView) view.findViewById(R.id.user_name)).setText(user.getUsername());
+        ((TextView) view.findViewById(R.id.user_email)).setText(user.getEmail());
     }
 }
