@@ -1,6 +1,9 @@
 package com.ametr1ne.overdiff.utils;
 
 import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.ametr1ne.overdiff.models.User;
 
@@ -76,6 +79,7 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onPostExecute(User result) {
         super.onPostExecute(result);
