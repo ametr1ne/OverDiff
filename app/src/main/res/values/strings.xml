@@ -2,6 +2,8 @@
     <string name="app_name">Overcoming Difficulties</string>
 
     <string name="title_article">Залита материнская плата</string>
+    <string name="title_tape">Статьи</string>
+    <string name="title_profile">Профиль</string>
 
     <string name="settings">Настройки</string>
     <string name="logout">Выйти</string>

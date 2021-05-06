@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="Оформление" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Оформление" />
     <ListPreference
         android:defaultValue="Как в системе"
         android:entries="@array/choose_theme"
