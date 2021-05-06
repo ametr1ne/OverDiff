@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreferenceCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ametr1ne.overdiff.fragments.AuthFragment;
 import com.ametr1ne.overdiff.fragments.ProfileFragment;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static FileProperties properties;
 
     private static final int PERMISSION_CALL = 127;
+    private Button bt_settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +130,12 @@ public class MainActivity extends AppCompatActivity {
             this.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new AuthFragment(this)).commit();
         });
+    public void onClickSettings (View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+       startActivity(intent);
     }
 
+    public void onClickLogout (View view) {
 
+    }
 }

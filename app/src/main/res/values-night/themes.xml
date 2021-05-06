@@ -11,9 +11,12 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
         <!-- Customize your theme here. -->
-        <item name="background_color">#393838</item>
+        <item name="background_color">@color/dark_gray</item>
         <item name="text_color">@color/white</item>
+        <item name="item_color">@color/white</item>
+        <item name="nav_bar_color">@color/gray</item>
+        <item name="button_background_color">@color/space_white</item>
     </style>
 </resources>

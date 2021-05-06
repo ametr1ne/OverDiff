@@ -1,43 +1,62 @@
 package com.ametr1ne.overdiff.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.ametr1ne.overdiff.R;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends AppCompatActivity {
+
+    private ActionBar actionBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_settings);
-        addPreferencesFromResource(R.xml.settings);
+        setContentView(R.layout.activity_settings);
 
-        //getSupportFragmentManager()
-                //.beginTransaction()
-                //.replace(R.id.settings_container, new SettingsFragment())
-                //.commit();
+        if (getSupportActionBar() != null) {
+            actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.action_settings);
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.settings_container, new SettingsFragment())
+                .commit();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        String regular = prefs.getString(getString(R.string.switch_theme), "");
-        if (regular.contains("Как в системе")) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String appTheme = prefs.getString("switch_theme", "Как в системе");
+        if (appTheme.contains("Как в системе")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
-        if (regular.contains("Светлая")) {
+        if (appTheme.contains("Светлая")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        if (regular.contains("Темная")) {
+        if (appTheme.contains("Темная")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
 }
