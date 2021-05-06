@@ -1,7 +1,10 @@
 package com.ametr1ne.overdiff.listener;
 
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
@@ -25,6 +28,7 @@ public class AuthClickListener implements View.OnClickListener {
         this.source = source;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
 

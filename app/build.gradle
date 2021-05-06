@@ -40,9 +40,12 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.jackandphantom.android:androidlikebutton:1.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.+'
+
+    compile 'com.github.jd-alexander:LikeButton:0.2.3'
 
     implementation group: 'xerces', name: 'xercesImpl', version: '2.12.1'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'

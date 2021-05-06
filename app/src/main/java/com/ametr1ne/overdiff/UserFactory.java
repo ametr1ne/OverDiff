@@ -1,5 +1,9 @@
 package com.ametr1ne.overdiff;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.ametr1ne.overdiff.encryption.SimpleCipher;
 import com.ametr1ne.overdiff.models.User;
 import com.ametr1ne.overdiff.utils.AuthUserTask;
@@ -37,6 +41,7 @@ public class UserFactory {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void authCurrentUser(String user, String password, boolean savePassword, Consumer<User> action) {
         try {
             String key = "Bar12345Bar12345Bar12345Bar12345";

@@ -76,7 +76,7 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
         }
 
 
-        return null;
+        return User.getInstance();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

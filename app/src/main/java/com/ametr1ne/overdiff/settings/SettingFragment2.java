@@ -39,18 +39,11 @@ public class SettingFragment2 extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
-
-
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
 
         Preference button = findPreference(getString(R.string.apply_settings));
         if (button != null) {

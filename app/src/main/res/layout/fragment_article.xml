@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_color"
     tools:context=".fragments.ArticleFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#C6C6C6">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -28,6 +27,8 @@
                 android:minHeight="50dp"
                 android:text="Name of article"
                 android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="?attr/text_color"
                 app:autoSizeMaxTextSize="50sp"
                 app:autoSizeMinTextSize="10sp"
                 app:autoSizeTextType="uniform" />
@@ -42,11 +43,14 @@
 
                 tools:src="@tools:sample/avatars" />
 
-            <EditText
+            <TextView
                 android:id="@+id/articleText"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="?attr/text_color"
                 android:inputType="textWebEditText|textMultiLine"
                 android:text="Text of article"
                 android:textAlignment="viewStart"
@@ -62,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Like" />
 
                 <TextView
                     android:id="@+id/article_like_view"
@@ -76,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Dislike" />
 
                 <TextView
                     android:id="@+id/article_dislikes_view"
@@ -95,6 +99,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:text="Комментарии:" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -116,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#F6ECEC"
+                    android:background="?attr/item_color"
                     android:ems="10"
                     android:inputType="text"
                     android:text="Name"
