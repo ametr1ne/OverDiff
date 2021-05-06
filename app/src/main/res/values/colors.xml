@@ -10,6 +10,7 @@
     <color name="gray">#434343</color>
     <color name="dark_gray">#222121</color>
     <color name="red">#FA3149</color>
+    <color name="access">#FA2F982C</color>
     <color name="space_gray">#eeffffff</color>
     <color name="space_white">#474747</color>
 </resources>

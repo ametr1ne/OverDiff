@@ -41,6 +41,8 @@ dependencies {
     implementation 'com.jackandphantom.android:androidlikebutton:1.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
     testImplementation 'junit:junit:4.+'
 
     compile 'com.github.jd-alexander:LikeButton:0.2.3'

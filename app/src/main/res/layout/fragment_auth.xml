@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8E8E8"
+    android:background="?attr/background_color"
     app:layout_constraintCircleRadius="150dp"
     tools:context=".fragments.AuthFragment">
 
@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -24,10 +24,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
+                android:textColor="?attr/text_color"
+                android:textStyle="bold"
                 android:text="Логин"
-                android:textSize="30dp" />
+                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/login"
@@ -45,22 +47,23 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:textColor="#FF0F0F"
+                android:textColor="?attr/warning_color"
                 android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:text="Пароль"
-                android:textSize="30dp" />
+                android:textStyle="bold"
+                android:textColor="?attr/text_color"
+                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/password"
@@ -78,7 +81,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:textColor="#FF0F0F"
+                android:textColor="?attr/warning_color"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -97,6 +100,7 @@
                     android:id="@+id/auth_savepassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:text="Сохранить пароль" />
 
                 <TextView
@@ -110,18 +114,23 @@
                     android:textColor="#FF0F0F"
                     android:visibility="invisible" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/authButton"
+                    android:background="@drawable/button_auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Авторизация" />
+                    android:text="Войти"
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:linksClickable="true"
-                    android:text="регистрация"
+                    android:layout_marginTop="10dp"
+                    android:text="Зарегистрироваться"
+                    android:textColor="?attr/text_color"
+                    android:textStyle="bold"
                     android:textAlignment="textEnd" />
 
             </LinearLayout>
