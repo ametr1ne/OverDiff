@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},PERMISSION_CALL);
         }
-
-        System.out.println("CREATE MAIN ACTIVITY ");
-
     }
 
 
@@ -68,20 +65,11 @@ public class MainActivity extends AppCompatActivity {
         rawProperties.getValue("ksite").ifPresent(s -> {
             GlobalProperties.KSITE_ADDRESS = s;
         });
-
-
-        System.out.println("Connect to "+GlobalProperties.KSITE_ADDRESS);
-
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
         properties = new FileProperties(new File(getFilesDir(), "config.data"));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new TapesFragment(this)).commit();
-
-
-
-
 
         UserFactory.getInstance().refreshSavedUser(user -> {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

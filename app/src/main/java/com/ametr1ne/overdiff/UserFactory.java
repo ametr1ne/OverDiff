@@ -27,7 +27,7 @@ import javax.xml.bind.DatatypeConverter;
 
 public class UserFactory {
 
-    private User currentUser;
+    private final User currentUser;
 
     private UserFactory() {
         currentUser = User.getInstance();
@@ -44,25 +44,22 @@ public class UserFactory {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void authCurrentUser(String user, String password, boolean savePassword, Consumer<User> action) {
         try {
-            String key = "Bar12345Bar12345Bar12345Bar12345";
-            SecretKeySpec aesKey = new SecretKeySpec(key.getBytes(), "AES");
+            SecretKeySpec aesKey = new SecretKeySpec(Base64.getDecoder().decode(SimpleCipher.PASSWORD_CIPHER_KEY.getBytes()), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, aesKey);
             byte[] encrypted = cipher.doFinal(password.getBytes());
             String s = DatatypeConverter.printBase64Binary(encrypted);
 
             new AuthUserTask(user, s, u -> {
-                currentUser = u;
+                setCurrentUser(u);
                 action.accept(currentUser);
                 if (u.isAuthorization()) {
                     try {
                         FileProperties properties = MainActivity.getProperties();
-                        if (savePassword) {
-                            properties.setProperties("refresh_token", new String(Base64.getEncoder().encode(SimpleCipher.encodePassword(u.getRefreshToken().getBytes()))));
-                            properties.setProperties("user_id", u.getId().toString());
-                            properties.setProperties("save", Boolean.toString(savePassword));
-                            properties.save();
-                        }
+                        properties.setProperties("refresh_token", !savePassword ? null : new String(Base64.getEncoder().encode(SimpleCipher.encodePassword(u.getRefreshToken().getBytes()))));
+                        properties.setProperties("user_id", !savePassword ? null : u.getId().toString());
+                        properties.setProperties("save", Boolean.toString(savePassword));
+                        properties.save();
                     } catch (IOException | IllegalBlockSizeException | BadPaddingException e) {
                         e.printStackTrace();
                     }
@@ -76,7 +73,7 @@ public class UserFactory {
     public void refreshCurrentUser(Consumer<User> action) {
         if (currentUser != null && currentUser.getRefreshToken() != null) {
             new RefreshTokenTask(currentUser.getRefreshToken(), currentUser.getId(), u -> {
-                currentUser = u;
+                setCurrentUser(u);
                 action.accept(u);
                 if (u.isAuthorization()) {
                     try {
@@ -103,7 +100,6 @@ public class UserFactory {
 
         Optional<String> refreshTokenOptional = properties.getValue("refresh_token");
         Optional<String> userIdOptional = properties.getValue("user_id");
-
         if (refreshTokenOptional.isPresent() && userIdOptional.isPresent()) {
             try {
                 String refreshToken = refreshTokenOptional.get();
@@ -112,7 +108,7 @@ public class UserFactory {
                 refreshToken = new String(SimpleCipher.decodePassword(Base64.getDecoder().decode(refreshToken.getBytes())));
 
                 new RefreshTokenTask(refreshToken, userId, u -> {
-                    currentUser = u;
+                    setCurrentUser(u);
                     action.accept(u);
                     if (u.isAuthorization()) {
                         try {
@@ -126,7 +122,7 @@ public class UserFactory {
                     }
                 }).execute();
 
-            } catch (BadPaddingException | IllegalBlockSizeException e) {
+            } catch (BadPaddingException | IllegalBlockSizeException | IllegalArgumentException e) {
                 e.printStackTrace();
             }
         }
@@ -137,7 +133,7 @@ public class UserFactory {
     }
 
     public void exit() {
-        currentUser = User.getInstance();
+        setCurrentUser(User.getInstance());
         FileProperties properties = MainActivity.getProperties();
         try {
             properties.remove("refresh_token");
@@ -149,4 +145,23 @@ public class UserFactory {
             e.printStackTrace();
         }
     }
+
+    private void setCurrentUser(User user) {
+        this.currentUser.setAuthStatus(user.getAuthStatus());
+        this.currentUser.setAuthorization(user.isAuthorization());
+        this.currentUser.setEmail(user.getEmail());
+        this.currentUser.setRefreshToken(user.getRefreshToken());
+        this.currentUser.setAccessToken(user.getAccessToken());
+        this.currentUser.setBan(user.isBan());
+        this.currentUser.setEnabled(user.isEnabled());
+        this.currentUser.setUsername(user.getUsername());
+        this.currentUser.setId(user.getId());
+        this.currentUser.setArticle(user.getArticle());
+        this.currentUser.setComment(user.getComment());
+        this.currentUser.setLikeDislikes(user.getLikeDislikes());
+        this.currentUser.setPassword(user.getPassword());
+        this.currentUser.setRoles(user.getRoles());
+        this.currentUser.setToken(user.getToken());
+    }
+
 }

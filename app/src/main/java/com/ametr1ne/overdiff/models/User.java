@@ -74,7 +74,6 @@ public class User {
     }
 
 
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -192,24 +191,9 @@ public class User {
     public static User deserialize(JSONObject jsonObject) {
         User user = getInstance();
         try {
-
-            /*
-              json.put("id", user.getId());
-        json.put("username", user.getUsername());
-        json.put("email", user.getEmail());
-        json.put("enabled", user.isEnabled());
-        json.put("ban", user.isBan());
-        json.put("access_token", user.getAccessToken());
-        json.put("refreshToken", user.getRefreshToken());
-
-             */
-
-
             int authStatus = jsonObject.has("auth_status") ? jsonObject.getInt("auth_status") : AuthStatus.ERROR;
-
             user.setAuthStatus(authStatus);
-
-            if(authStatus == AuthStatus.SUCCESSFUL_AUTHORIZATION) {
+            if (authStatus == AuthStatus.SUCCESSFUL_AUTHORIZATION) {
                 user.setId(jsonObject.getLong("id"));
                 user.setUsername(jsonObject.getString("username"));
                 user.setEmail(jsonObject.getString("email"));
@@ -222,13 +206,14 @@ public class User {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            user = getInstance();
         }
 
         return user;
     }
 
 
-    public static User getInstance(){
+    public static User getInstance() {
         User user = new User();
         user.setAuthorization(false);
         user.setAuthStatus(AuthStatus.NOT_AUTHORIZED);
