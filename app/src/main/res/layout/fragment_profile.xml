@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/background_color"
     android:backgroundTintMode="add"
-    tools:context=".ProfileFragment">
+    tools:context=".fragments.ProfileFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -47,7 +47,6 @@
         android:layout_below="@+id/user_email"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:onClick="onClickSettings"
         android:background="@drawable/rounder_button"
         android:drawableStart="@drawable/ic_settings_foreground"
         android:paddingEnd="40dp"

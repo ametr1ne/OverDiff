@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#BF2222">
     <PreferenceCategory android:title="Оформление" />
     <ListPreference
+        android:id="@+id/settings_chose_theam"
         android:defaultValue="Как в системе"
         android:entries="@array/choose_theme"
         android:entryValues="@array/choose_theme"
         android:key="@string/switch_theme"
         android:title="Выбор темы оформления" />
+
+    <Preference
+        android:background="#C0EA27"
+        android:key="@string/apply_settings"
+        android:title="Применить настройки" />
+
 </PreferenceScreen>

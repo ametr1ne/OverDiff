@@ -14,6 +14,7 @@ import com.ametr1ne.overdiff.UserFactory;
 import com.ametr1ne.overdiff.encryption.JWT;
 import com.ametr1ne.overdiff.listener.AuthClickListener;
 import com.ametr1ne.overdiff.listener.ExitClickListener;
+import com.ametr1ne.overdiff.listener.SettingsListener;
 import com.ametr1ne.overdiff.models.User;
 import com.ametr1ne.overdiff.utils.AuthStatus;
 import com.ametr1ne.overdiff.utils.RefreshTokenTask;
@@ -22,6 +23,10 @@ public class ProfileFragment extends Fragment {
 
     private MainActivity source;
     private User user;
+
+    public ProfileFragment() throws IllegalAccessException {
+        throw new IllegalAccessException("АХАХАХА ТЫ ЛОХ)");
+    }
 
     public ProfileFragment(MainActivity source) {
         this.source = source;
@@ -48,6 +53,7 @@ public class ProfileFragment extends Fragment {
 
         loadView(view);
         view.findViewById(R.id.exit_button).setOnClickListener(new ExitClickListener(source));
+        view.findViewById(R.id.bt_settings).setOnClickListener(new SettingsListener(source));
 
 
         return view;

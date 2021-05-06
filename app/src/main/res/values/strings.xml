@@ -10,6 +10,7 @@
     <string name="user_name">User name</string>
     <string name="user_email">example@example.exa</string>
     <string name="action_settings">Настройки</string>
+    <string name="apply_settings">Настройки</string>
 
     <string name="switch_theme">switch_theme</string>
     <string-array name="choose_theme">
@@ -23,4 +24,6 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
