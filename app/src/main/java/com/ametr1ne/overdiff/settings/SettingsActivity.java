@@ -33,29 +33,22 @@ public class SettingsActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.settings_container, new SettingsFragment())
                 .commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String appTheme = prefs.getString("switch_theme", "Как в системе");
-
-        //if (appTheme.contains("Как в системе")) {
-          //  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-      //  }
+        if (appTheme.contains("Как в системе")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
         if (appTheme.contains("Светлая")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         if (appTheme.contains("Темная")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    private void restartSettings() {
-        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-        startActivity(intent);
     }
 
     @Override
