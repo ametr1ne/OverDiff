@@ -34,6 +34,7 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
 
         try {
             URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/auth?login=" + username +
+                    "&device_id="+DeviceId.getDeviceId()+
                     "&password=" + password);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
@@ -73,7 +74,7 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
         }
 
 
-        return null;
+        return User.getInstance();
     }
 
     @Override

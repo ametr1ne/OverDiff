@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
+import com.ametr1ne.overdiff.UserFactory;
 
 import java.util.Objects;
 
@@ -70,6 +71,7 @@ public class SettingFragment2 extends PreferenceFragmentCompat {
                     source.recreate();
                 }
                 return true;
+
             });
         }
     }

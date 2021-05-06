@@ -42,7 +42,6 @@ public class TapesFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
             });
         }).execute();
-
         view.findViewById(R.id.new_article).setVisibility(UserFactory.getInstance().getCurrentUser().isAuthorization() ? View.VISIBLE : View.INVISIBLE);
 
         view.findViewById(R.id.new_article).setOnClickListener(v -> {

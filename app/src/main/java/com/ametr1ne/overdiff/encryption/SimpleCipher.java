@@ -18,6 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class SimpleCipher {
 
+    public static final String PASSWORD_CIPHER_KEY = "E1G6VO26lKO642udnUegyjLRyFjsNONiG9/ZSvXVltg=";
     private static final String PUBLIC_KEY_BASE64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2M35EphKi1AcNbRGtT/IbQdk7Pj1t5+uqhCxAj7owZkvdNPoRHCPIg3i6ZlIZzdlTl7zgccwqqjyQhhrnBpVAlPPLSQgnUqscUc2cXX4oFOkat8DhxAMnWIFW/Xh8QPTWucsRtF9uwId/BZGgJUhj58b8dvRLqAhmJIAS3uzFZF6HTLW+D2Fkc0IBLhUG3mHmze9mlfiioqUxc8oKpMIdtoU+67BcqqiQElCZTOje8h2XL7xM2aBi1EZ39KXs65bIBVEehF8U1o9SYIxv6R7NleQggjxgoJyEFjcKVKVj6ZOxiuVE/xi9OFrnl2dJ9ZSafjNfu1SF0KNukKWjgN6vwIDAQAB";
     private static Cipher cipher;
     private static Signature verifySignature;

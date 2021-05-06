@@ -53,7 +53,7 @@ public class AuthClickListener implements View.OnClickListener {
             authErrorPassword.setVisibility(View.VISIBLE);
             authErrorPassword.setText("Пустой пароль");
         }
-        UserFactory.getInstance().authCurrentUser(userName, password, source.findViewById(R.id.auth_savepassword).isEnabled(), user -> {
+        UserFactory.getInstance().authCurrentUser(userName, password, source.findViewById(R.id.auth_savepassword).isActivated(), user -> {
             if(user.getAuthStatus()!= AuthStatus.SUCCESSFUL_AUTHORIZATION) {
                 TextView authError = (TextView)source.findViewById(R.id.auth_error_info);
                 authError.setVisibility(View.VISIBLE);

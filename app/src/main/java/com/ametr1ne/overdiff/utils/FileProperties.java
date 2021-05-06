@@ -54,7 +54,10 @@ public class FileProperties implements Properties{
 
     @Override
     public void setProperties(String key, String value) {
-        properties.put(key, value);
+        if (value != null)
+            properties.put(key, value);
+        else
+            properties.remove(key);
     }
 
     @Override
