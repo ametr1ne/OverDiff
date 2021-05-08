@@ -1,5 +1,6 @@
 package com.ametr1ne.overdiff.fragments;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;

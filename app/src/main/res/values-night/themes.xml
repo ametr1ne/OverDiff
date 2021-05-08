@@ -19,5 +19,6 @@
         <item name="nav_bar_color">@color/gray</item>
         <item name="button_background_color">@color/space_white</item>
         <item name="warning_color">@color/red</item>
+        <item name="back_background_color">@color/black</item>
     </style>
 </resources>

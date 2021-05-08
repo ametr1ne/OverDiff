@@ -7,5 +7,6 @@
         <attr name="nav_bar_color" format="color"/>
         <attr name="button_background_color" format="color"/>
         <attr name="warning_color" format="color"/>
+        <attr name="back_background_color" format="color"/>
     </declare-styleable>
 </resources>

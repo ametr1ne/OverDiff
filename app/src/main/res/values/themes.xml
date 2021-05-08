@@ -19,6 +19,7 @@
         <item name="nav_bar_color">@color/white</item>
         <item name="button_background_color">@color/space_gray</item>
         <item name="warning_color">@color/red</item>
+        <item name="back_background_color">#C3C1C1</item>
     </style>
 
     <style name="Theme.OverDiff.NoActionBar">
