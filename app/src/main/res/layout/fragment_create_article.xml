@@ -1,71 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.CreateArticleFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Название статьи" />
-
-    <TextView
-        android:id="@+id/new_article_logger"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:gravity="center"
-        android:textColor="#FF0F0F"
-        android:visibility="invisible" />
-
-    <EditText
-        android:id="@+id/new_article_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/img_layout"
         android:layout_marginTop="50dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
+        <Button
+            android:id="@+id/new_article_find_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounder_button"
+            android:text="Выбрать изображение" />
+
+        <ImageView
+            android:id="@+id/new_article_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="20dp"
+            tools:src="@tools:sample/avatars" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/name_article"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@+id/img_layout">
+
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Текст статьи" />
+        android:textColor="?attr/text_color"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:text="Название статьи"/>
 
-    <EditText
-        android:id="@+id/new_article_text"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/new_article_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dialog_bg"
+            android:ems="10"
+            android:hint="Введите название статьи"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/new_article_logger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:textColor="?attr/warning_color"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine" />
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/body_article"
+        android:layout_below="@+id/name_article"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/new_article_find_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:text="Изображение" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/text_color"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="Текст статьи" />
 
-    <ImageView
-        android:id="@+id/new_article_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="300dp"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
-        tools:src="@tools:sample/avatars" />
+        <EditText
+            android:id="@+id/new_article_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="15"
+            android:hint="Введите описание"
+            android:background="@drawable/dialog_bg"
+            android:inputType="textMultiLine" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/new_article_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:text="Создать статью" />
-
-</FrameLayout>
+        <Button
+            android:id="@+id/new_article_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Создать статью"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/rounder_button"
+            android:layout_marginEnd="10dp"/>
+</RelativeLayout>

@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/background_color"
-    app:layout_constraintCircleRadius="150dp"
     tools:context=".fragments.AuthFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:gravity="center"
-                android:textColor="?attr/text_color"
-                android:textStyle="bold"
-                android:text="Логин"
-                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:hint="@string/login"
+                android:drawableStart="@drawable/ic_login"
+                android:drawablePadding="12dp"
                 android:background="@drawable/dialog_bg"
                 android:ems="10"
                 android:inputType="textPersonName" />
@@ -57,20 +47,15 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Пароль"
-                android:textStyle="bold"
-                android:textColor="?attr/text_color"
-                android:textSize="25sp" />
-
             <EditText
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="12dp"
                 android:background="@drawable/dialog_bg"
+                android:hint="@string/password"
                 android:ems="10"
                 android:inputType="textPassword" />
 
@@ -92,8 +77,8 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="230dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <CheckBox
@@ -106,12 +91,11 @@
                 <TextView
                     android:id="@+id/auth_error_info"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:text="Неверный логин или пароль"
-                    android:textColor="#FF0F0F"
+                    android:textColor="?attr/warning_color"
                     android:visibility="invisible" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -131,7 +115,7 @@
                     android:text="Зарегистрироваться"
                     android:textColor="?attr/text_color"
                     android:textStyle="bold"
-                    android:textAlignment="textEnd" />
+                    android:textAlignment="center" />
 
             </LinearLayout>
 

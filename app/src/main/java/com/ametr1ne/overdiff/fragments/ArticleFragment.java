@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class ArticleFragment extends Fragment {
 
     private MainActivity source;
     private String articleHash;
+    private ImageButton like_button;
+    private ImageButton dislike_button;
 
     public ArticleFragment(MainActivity mainActivity, String articleHash) {
         this.source = mainActivity;
@@ -57,7 +60,7 @@ public class ArticleFragment extends Fragment {
 
                 source.findViewById(R.id.article_newcomment).setVisibility(currentUser.isAuthorization() ? View.VISIBLE : View.INVISIBLE);
 
-                Button button = source.findViewById(R.id.new_comment_button);
+                ImageButton button = source.findViewById(R.id.new_comment_button);
 
                 button.setOnClickListener(v -> {
                     TextView textView = (TextView) source.findViewById(R.id.new_comment_textview);
