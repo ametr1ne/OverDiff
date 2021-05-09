@@ -74,7 +74,7 @@ public class ListAdapter extends RecyclerView.Adapter {
 
         public void onClick (View view) {
             source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ArticleFragment(source,article.getHash())).commit();
+                    new ArticleFragment(source,article.getHash())).addToBackStack("tag").commit();
         }
 
     }

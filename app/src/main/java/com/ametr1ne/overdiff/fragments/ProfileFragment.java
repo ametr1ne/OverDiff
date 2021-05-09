@@ -24,10 +24,6 @@ public class ProfileFragment extends Fragment {
     private MainActivity source;
     private User user;
 
-    public ProfileFragment() throws IllegalAccessException {
-        throw new IllegalAccessException("АХАХАХА ТЫ ЛОХ)");
-    }
-
     public ProfileFragment(MainActivity source) {
         this.source = source;
         this.user = UserFactory.getInstance().getCurrentUser();

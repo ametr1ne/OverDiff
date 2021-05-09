@@ -17,6 +17,6 @@ public class SettingsListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         source.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new SettingFragment2(source)).commit();
+                new SettingFragment2(source)).addToBackStack("tag").commit();
     }
 }

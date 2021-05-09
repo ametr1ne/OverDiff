@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="clip_horizontal|fill_horizontal"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <EditText
                     android:id="@+id/new_comment_textview"
@@ -138,7 +138,6 @@
                     android:inputType="text"
                     android:hint="@string/comment"
                     android:layout_weight="1"
-                    android:visibility="visible"
                     android:background="@drawable/dialog_bg" />
 
                 <ImageButton

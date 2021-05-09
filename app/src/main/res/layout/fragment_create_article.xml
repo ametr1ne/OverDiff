@@ -48,7 +48,7 @@
 
         <EditText
             android:id="@+id/new_article_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/dialog_bg"
@@ -88,7 +88,7 @@
 
         <EditText
             android:id="@+id/new_article_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="15"

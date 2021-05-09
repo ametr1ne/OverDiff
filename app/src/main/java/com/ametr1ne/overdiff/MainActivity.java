@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private static FileProperties properties;
 
     private static final int PERMISSION_CALL = 127;
-
+    private long backPressedTime;
+    private Toast backTost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +118,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void update(){
-
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backTost.cancel();
+            super.onBackPressed();
+            return;
+        } else {
+            backTost = Toast.makeText(getBaseContext(), "Нажмите еще раз, чтобы выйти", Toast.LENGTH_SHORT);
+            backTost.show();
+        }
+        backPressedTime = System.currentTimeMillis();
+    }
 }
