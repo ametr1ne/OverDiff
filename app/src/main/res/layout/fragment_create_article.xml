@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background_color"
     tools:context=".fragments.CreateArticleFragment">
 
     <LinearLayout
@@ -54,6 +55,7 @@
             android:background="@drawable/dialog_bg"
             android:ems="10"
             android:hint="Введите название статьи"
+            android:textColorHint="?attr/text_color_hint"
             android:inputType="textPersonName" />
 
         <TextView

@@ -142,8 +142,9 @@
 
                 <ImageButton
                     android:id="@+id/new_comment_button"
-                    android:src="@drawable/baseline_send_light_blue_700_24dp"
+                    android:src="@drawable/send"
                     android:layout_width="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 

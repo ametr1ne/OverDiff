@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Overcoming Difficulties</string>
 
+    <string name="over">Overcoming</string>
+    <string name="diff">Difficulties</string>
+
+
     <string name="title_article">Залита материнская плата</string>
     <string name="title_tape">Статьи</string>
     <string name="title_profile">Профиль</string>

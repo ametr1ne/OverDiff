@@ -13,4 +13,5 @@
     <color name="access">#FA2F982C</color>
     <color name="space_gray">#eeffffff</color>
     <color name="space_white">#474747</color>
+    <color name="hint">#807F7F</color>
 </resources>
