@@ -43,6 +43,9 @@ public class UserFactory {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void authCurrentUser(String user, String password, boolean savePassword, Consumer<User> action) {
+
+        System.out.println("SAVE PASSWORD : "+ savePassword);
+
         try {
             SecretKeySpec aesKey = new SecretKeySpec(Base64.getDecoder().decode(SimpleCipher.PASSWORD_CIPHER_KEY.getBytes()), "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -97,6 +100,8 @@ public class UserFactory {
 
     public void refreshSavedUser(Consumer<User> action) {
         FileProperties properties = MainActivity.getProperties();
+
+        System.out.println(properties);
 
         Optional<String> refreshTokenOptional = properties.getValue("refresh_token");
         Optional<String> userIdOptional = properties.getValue("user_id");
