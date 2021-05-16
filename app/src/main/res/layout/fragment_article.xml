@@ -93,7 +93,7 @@
 
                 <ImageButton
                     android:id="@+id/article_dislike_button"
-                    android:src="@drawable/thumb_down"
+                        android:src="@drawable/thumb_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dislike" />
