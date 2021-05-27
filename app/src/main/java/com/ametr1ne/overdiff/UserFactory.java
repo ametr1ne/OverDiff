@@ -41,7 +41,6 @@ public class UserFactory {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void authCurrentUser(String user, String password, boolean savePassword, Consumer<User> action) {
 
         System.out.println("SAVE PASSWORD : "+ savePassword);
@@ -53,7 +52,10 @@ public class UserFactory {
             byte[] encrypted = cipher.doFinal(password.getBytes());
             String s = DatatypeConverter.printBase64Binary(encrypted);
 
+            System.out.println("A");
+
             new AuthUserTask(user, s, u -> {
+                System.out.println("L");
                 setCurrentUser(u);
                 action.accept(currentUser);
                 if (u.isAuthorization()) {
@@ -68,6 +70,7 @@ public class UserFactory {
                     }
                 }
             }).execute();
+            System.out.println("EXIT");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
             e.printStackTrace();
         }
@@ -112,6 +115,8 @@ public class UserFactory {
 
                 refreshToken = new String(SimpleCipher.decodePassword(Base64.getDecoder().decode(refreshToken.getBytes())));
 
+                System.out.println("REFRESH");
+
                 new RefreshTokenTask(refreshToken, userId, u -> {
                     setCurrentUser(u);
                     action.accept(u);
@@ -126,7 +131,7 @@ public class UserFactory {
                         }
                     }
                 }).execute();
-
+                System.out.println("EX");
             } catch (BadPaddingException | IllegalBlockSizeException | IllegalArgumentException e) {
                 e.printStackTrace();
             }

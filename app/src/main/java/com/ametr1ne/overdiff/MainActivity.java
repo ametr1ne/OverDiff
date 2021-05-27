@@ -3,7 +3,10 @@ package com.ametr1ne.overdiff;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ import com.ametr1ne.overdiff.utils.RawProperties;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
+import java.net.InetAddress;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String deviceId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+        String ip = "100.111.111";
+
+        GlobalProperties.DEVICE_ID = deviceId;
+        GlobalProperties.IP = ip;
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED) {
             makeCall();
@@ -65,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     public void makeCall(){
         RawProperties rawProperties = new RawProperties(getResources().openRawResource(R.raw.application));// getting XML
         rawProperties.getValue("ksite").ifPresent(s -> {
-            GlobalProperties.KSITE_ADDRESS = s;
+           // GlobalProperties.KSITE_ADDRESS = s;
         });
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -77,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new TapesFragment(this)).commit();
         });
+
 
 
     }

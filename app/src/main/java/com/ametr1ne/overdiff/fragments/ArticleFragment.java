@@ -1,5 +1,6 @@
 package com.ametr1ne.overdiff.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.os.Bundle;
 
@@ -45,6 +46,7 @@ public class ArticleFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +76,11 @@ public class ArticleFragment extends Fragment {
                         }).execute();
 
                 });
+
+                ((TextView) source.findViewById(R.id.article_like_view)).setText(Integer.valueOf(article.getLikes()).toString());
+                ((TextView) source.findViewById(R.id.article_dislikes_view)).setText(Integer.valueOf(article.getDislikes()).toString());
+
+
                 LinearLayout layout = source.findViewById(R.id.comment_layout);
 
                 for (Comment comment : article.getComment()) {
@@ -82,7 +89,9 @@ public class ArticleFragment extends Fragment {
                     text.setText(comment.getComment());
                     layout.addView(view);
                 }
+
             });
+
 
 
             source.findViewById(R.id.article_like_button).setOnClickListener(v -> {
@@ -91,6 +100,8 @@ public class ArticleFragment extends Fragment {
             source.findViewById(R.id.article_dislike_button).setOnClickListener(v -> {
                 evaluationArticle(currentUser, article, false);
             });
+
+
 
         }).execute();
 

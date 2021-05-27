@@ -26,19 +26,24 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
     private Consumer<User> action;
 
     public AuthUserTask(String username, String password, Consumer<User> action) {
+        System.out.println("R");
         this.username = username;
         this.password = password;
         this.action = action;
+        System.out.println("M");
     }
 
     @Override
     protected User doInBackground(Void... voids) {
 
-
+        System.out.println("B");
         try {
-            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/auth?login=" + username +
+            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/auth/"+GlobalProperties.SERVICE_NAME+"/?login=" + username +
                     "&device_id="+DeviceId.getDeviceId()+
                     "&password=" + password);
+
+            System.out.println(url.toString());
+
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
 
@@ -80,7 +85,6 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
         return User.getInstance();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onPostExecute(User result) {
         super.onPostExecute(result);
