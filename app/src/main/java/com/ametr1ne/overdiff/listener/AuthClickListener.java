@@ -2,6 +2,7 @@ package com.ametr1ne.overdiff.listener;
 
 import android.os.Build;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -57,7 +58,7 @@ public class AuthClickListener implements View.OnClickListener {
             authErrorPassword.setVisibility(View.VISIBLE);
             authErrorPassword.setText("Пустой пароль");
         }
-        UserFactory.getInstance().authCurrentUser(userName, password, source.findViewById(R.id.auth_savepassword).isEnabled(), user -> {
+        UserFactory.getInstance().authCurrentUser(userName, password, ((CheckBox)source.findViewById(R.id.auth_savepassword)).isChecked(), user -> {
             if(user.getAuthStatus()!= AuthStatus.SUCCESSFUL_AUTHORIZATION) {
                 TextView authError = (TextView)source.findViewById(R.id.auth_error_info);
                 authError.setVisibility(View.VISIBLE);

@@ -42,9 +42,6 @@ public class UserFactory {
 
 
     public void authCurrentUser(String user, String password, boolean savePassword, Consumer<User> action) {
-
-        System.out.println("SAVE PASSWORD : "+ savePassword);
-
         try {
             SecretKeySpec aesKey = new SecretKeySpec(Base64.getDecoder().decode(SimpleCipher.PASSWORD_CIPHER_KEY.getBytes()), "AES");
             Cipher cipher = Cipher.getInstance("AES");
@@ -52,10 +49,7 @@ public class UserFactory {
             byte[] encrypted = cipher.doFinal(password.getBytes());
             String s = DatatypeConverter.printBase64Binary(encrypted);
 
-            System.out.println("A");
-
             new AuthUserTask(user, s, u -> {
-                System.out.println("L");
                 setCurrentUser(u);
                 action.accept(currentUser);
                 if (u.isAuthorization()) {
@@ -70,7 +64,6 @@ public class UserFactory {
                     }
                 }
             }).execute();
-            System.out.println("EXIT");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
             e.printStackTrace();
         }
@@ -103,9 +96,6 @@ public class UserFactory {
 
     public void refreshSavedUser(Consumer<User> action) {
         FileProperties properties = MainActivity.getProperties();
-
-        System.out.println(properties);
-
         Optional<String> refreshTokenOptional = properties.getValue("refresh_token");
         Optional<String> userIdOptional = properties.getValue("user_id");
         if (refreshTokenOptional.isPresent() && userIdOptional.isPresent()) {
@@ -114,9 +104,6 @@ public class UserFactory {
                 long userId = Long.parseLong(userIdOptional.get());
 
                 refreshToken = new String(SimpleCipher.decodePassword(Base64.getDecoder().decode(refreshToken.getBytes())));
-
-                System.out.println("REFRESH");
-
                 new RefreshTokenTask(refreshToken, userId, u -> {
                     setCurrentUser(u);
                     action.accept(u);
@@ -131,7 +118,6 @@ public class UserFactory {
                         }
                     }
                 }).execute();
-                System.out.println("EX");
             } catch (BadPaddingException | IllegalBlockSizeException | IllegalArgumentException e) {
                 e.printStackTrace();
             }

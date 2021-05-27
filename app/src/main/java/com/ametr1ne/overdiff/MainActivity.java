@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         String deviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        String ip = "100.111.111";
+        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
 
         GlobalProperties.DEVICE_ID = deviceId;
         GlobalProperties.IP = ip;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public void makeCall(){
         RawProperties rawProperties = new RawProperties(getResources().openRawResource(R.raw.application));// getting XML
         rawProperties.getValue("ksite").ifPresent(s -> {
-           // GlobalProperties.KSITE_ADDRESS = s;
+            GlobalProperties.KSITE_ADDRESS = s;
         });
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);

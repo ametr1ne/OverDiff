@@ -26,8 +26,9 @@ public class RefreshTokenTask extends AsyncTask<Void, Void, User> {
     protected User doInBackground(Void... params) {
         try {
             String requestUrl = "http://"+GlobalProperties.KSITE_ADDRESS+"/api/refresh?id=" + userId +
-                    "&device_id=1"+
-                    "&refresh_token=" + refreshToken;
+                    "&device_id="+DeviceId.getDeviceId()+
+                    "&refresh_token=" + refreshToken+
+                    "&service_id=" + GlobalProperties.SERVICE_NAME;
             String charset = "UTF-8";
             MultipartUtility multipart = new MultipartUtility(requestUrl, charset);
 

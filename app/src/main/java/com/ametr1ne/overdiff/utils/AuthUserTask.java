@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class AuthUserTask extends AsyncTask<Void, Void, User> {
@@ -26,63 +27,35 @@ public class AuthUserTask extends AsyncTask<Void, Void, User> {
     private Consumer<User> action;
 
     public AuthUserTask(String username, String password, Consumer<User> action) {
-        System.out.println("R");
         this.username = username;
         this.password = password;
         this.action = action;
-        System.out.println("M");
     }
 
     @Override
     protected User doInBackground(Void... voids) {
 
-        System.out.println("B");
         try {
-            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/auth/"+GlobalProperties.SERVICE_NAME+"/?login=" + username +
+            String requestUrl = "http://"+GlobalProperties.KSITE_ADDRESS+"/api/auth?login="+username+
+                    "&password="+password+
                     "&device_id="+DeviceId.getDeviceId()+
-                    "&password=" + password);
+                    "&service_id="+GlobalProperties.SERVICE_NAME;
+            String charset = "UTF-8";
+            MultipartUtility multipart = new MultipartUtility(requestUrl, charset);
+            List<String> response = multipart.finish();
 
-            System.out.println(url.toString());
-
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-
-                urlConnection.setRequestMethod("POST");
-
-                InputStream inputStream;
-                int status = urlConnection.getResponseCode();
-
-                if (status != HttpURLConnection.HTTP_OK)
-                    inputStream = urlConnection.getErrorStream();
-                else
-                    inputStream = urlConnection.getInputStream();
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-
-                String line;
-                StringBuilder stringJson = new StringBuilder();
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringJson.append(line);
-                }
-
-                inputStream.close();
-                JSONObject jsonObject = new JSONObject(stringJson.toString());
-                return User.deserialize(jsonObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                urlConnection.disconnect();
+            StringBuilder stringJson = new StringBuilder();
+            for (String s : response) {
+                stringJson.append(s);
             }
 
-
-        } catch (IOException e) {
+            JSONObject jsonObject = new JSONObject(stringJson.toString());
+            return User.deserialize(jsonObject);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         return User.getInstance();
+
     }
 
     @Override
