@@ -26,6 +26,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.util.Optional;
+
+import kotlinx.coroutines.GlobalScope;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         }else{
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},PERMISSION_CALL);
         }
+
+
+
     }
 
 
@@ -76,9 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void makeCall(){
         RawProperties rawProperties = new RawProperties(getResources().openRawResource(R.raw.application));// getting XML
-        rawProperties.getValue("ksite").ifPresent(s -> {
-            GlobalProperties.KSITE_ADDRESS = s;
-        });
+
+
+        String ksiteProperty = rawProperties.getValue("ksite");
+        if(ksiteProperty !=null)
+            GlobalProperties.KSITE_ADDRESS = ksiteProperty;
+
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         properties = new FileProperties(new File(getFilesDir(), "config.data"));

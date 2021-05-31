@@ -1,28 +1,16 @@
 package com.ametr1ne.overdiff.settings;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
-import com.ametr1ne.overdiff.UserFactory;
-
-import java.util.Objects;
 
 
 public class SettingFragment2 extends PreferenceFragmentCompat {

@@ -1,97 +1,56 @@
-package com.ametr1ne.overdiff.utils;
+package com.ametr1ne.overdiff.utils
 
-import android.os.AsyncTask;
-import android.view.View;
-import android.widget.TextView;
+import android.os.AsyncTask
+import android.view.View
+import android.widget.TextView
+import com.ametr1ne.overdiff.MainActivity
+import com.ametr1ne.overdiff.R
+import com.ametr1ne.overdiff.UserFactory.Companion.getInstance
+import org.json.JSONObject
+import java.io.File
+import java.io.IOException
+import java.nio.charset.Charset
+import java.util.function.Consumer
 
-import com.ametr1ne.overdiff.MainActivity;
-import com.ametr1ne.overdiff.R;
-import com.ametr1ne.overdiff.UserFactory;
-import com.ametr1ne.overdiff.models.User;
+class CreateArticleTask(
+    private val file: File?,
+    private val description: String,
+    private val text: String
+)  {
+    companion object {
+        private var emptyFile: File? = null
 
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.function.Consumer;
-
-public class CreateArticleTask extends AsyncTask<Void, Void, Integer> {
-
-
-    private MainActivity mainActivity;
-    private String description;
-    private String text;
-    private File file;
-
-    private Consumer<Integer> action;
-
-    private static File emptyFile;
-    static{
-        try {
-            emptyFile = File.createTempFile("temptile", ".tmp");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public CreateArticleTask(MainActivity mainActivity, File file, String description, String text, Consumer<Integer> action) {
-        this.mainActivity = mainActivity;
-        this.file = file;
-        this.description = description;
-        this.text = text;
-
-
-        this.action = action;
-    }
-
-    @Override
-    protected Integer doInBackground(Void... params) {
-        try {
-
-
-            User user = UserFactory.getInstance().getCurrentUser();
-
-            if (user.isAuthorization()) {
-                String requestUrl = "http://" + GlobalProperties.KSITE_ADDRESS + "/api/createarticle?access_token=" + user.getAccessToken() +
-                        "&description=" + description +
-                        "&text=" + text;
-                MultipartUtility multipart = new MultipartUtility(requestUrl, Charset.defaultCharset().name());
-
-                if(file!=null)
-                multipart.addFilePart("icon", file);
-
-
-                List<String> response = multipart.finish();
-
-                StringBuilder stringJson = new StringBuilder();
-
-                for (String s : response) {
-                    stringJson.append(s);
-                }
-
-                JSONObject jsonObject = new JSONObject(stringJson.toString());
-                return jsonObject.getInt("status");
+        init {
+            try {
+                emptyFile = File.createTempFile("temptile", ".tmp")
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            mainActivity.runOnUiThread(() -> {
-                TextView viewById = (TextView) mainActivity.findViewById(R.id.new_article_logger);
-
-                viewById.setText("ERROR: " + e.toString());
-                viewById.setVisibility(View.VISIBLE);
-
-            });
         }
-        return ArticleStatus.TOKEN_DAMAGED;
     }
 
-    @Override
-    protected void onPostExecute(Integer result) {
-        super.onPostExecute(result);
-        action.accept(result);
+    suspend fun createArticle():Int{
+        return runCatching {
+            val user = getInstance().getCurrentUser()
+            if (user.isAuthorization) {
+                val requestUrl =
+                    "http://" + GlobalProperties.KSITE_ADDRESS + "/api/createarticle?access_token=" + user.accessToken +
+                            "&description=" + description +
+                            "&text=" + text
+                val multipart = MultipartUtility(requestUrl, Charset.defaultCharset().name())
+                if (file != null) multipart.addFilePart("icon", file)
+                val response = multipart.finish()
+                val stringJson = StringBuilder()
+                for (s in response) {
+                    stringJson.append(s)
+                }
+                val jsonObject = JSONObject(stringJson.toString())
+                return jsonObject.getInt("status")
+            }else{
+                return ArticleStatus.TOKEN_DAMAGED
+            }
+        }.getOrElse { ArticleStatus.ERROR }
     }
+
 
 }

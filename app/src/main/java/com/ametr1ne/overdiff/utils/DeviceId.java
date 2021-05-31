@@ -1,9 +1,9 @@
 package com.ametr1ne.overdiff.utils;
 
+import android.util.Base64;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Base64;
 
 public class DeviceId {
 
@@ -17,7 +17,7 @@ public class DeviceId {
             e.printStackTrace();
         }
 
-        return new String(Base64.getEncoder().encode(jsonObject.toString().getBytes()));
+        return new String(Base64.encode(jsonObject.toString().getBytes(),Base64.DEFAULT));
     }
 
 }

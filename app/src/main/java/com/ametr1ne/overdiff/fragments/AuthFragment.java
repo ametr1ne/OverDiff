@@ -39,13 +39,13 @@ public class AuthFragment extends Fragment  {
 
         FileProperties properties = MainActivity.getProperties();
 
-        Optional<String> refreshTokenOptional = properties.getValue("refresh_token");
-        Optional<String> userIdOptional = properties.getValue("user_id");
+        String refreshTokenOptional = properties.getValue("refresh_token");
+        String userIdOptional = properties.getValue("user_id");
 
-        if(refreshTokenOptional.isPresent() && userIdOptional.isPresent()){
+        if(refreshTokenOptional!=null && userIdOptional!=null){
 
-            String refreshToken = refreshTokenOptional.get();
-            long userId = Long.parseLong(userIdOptional.get());
+            String refreshToken = refreshTokenOptional;
+            long userId = Long.parseLong(userIdOptional);
 
             UserFactory.getInstance().refreshCurrentUser(user -> {
                 if(user.isAuthorization()) {
@@ -55,7 +55,6 @@ public class AuthFragment extends Fragment  {
                     });
                 }
             });
-
         }
 
         view.findViewById(R.id.authButton).setOnClickListener(new AuthClickListener(

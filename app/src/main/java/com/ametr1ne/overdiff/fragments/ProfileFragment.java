@@ -12,12 +12,10 @@ import com.ametr1ne.overdiff.MainActivity;
 import com.ametr1ne.overdiff.R;
 import com.ametr1ne.overdiff.UserFactory;
 import com.ametr1ne.overdiff.encryption.JWT;
-import com.ametr1ne.overdiff.listener.AuthClickListener;
 import com.ametr1ne.overdiff.listener.ExitClickListener;
 import com.ametr1ne.overdiff.listener.SettingsListener;
 import com.ametr1ne.overdiff.models.User;
 import com.ametr1ne.overdiff.utils.AuthStatus;
-import com.ametr1ne.overdiff.utils.RefreshTokenTask;
 
 public class ProfileFragment extends Fragment {
 

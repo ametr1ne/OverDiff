@@ -1,14 +1,21 @@
 package com.ametr1ne.overdiff.utils;
 
+import android.util.Base64;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
 
 public class RawProperties implements Properties{
 
@@ -24,8 +31,7 @@ public class RawProperties implements Properties{
             String line;
             while ((line = bReader.readLine()) != null) {
 
-                Base64.Decoder decoder = Base64.getDecoder();
-                String decodeString = new String(decoder.decode(line.getBytes()));
+                String decodeString = new String(Base64.decode(line.getBytes(),Base64.DEFAULT));
                 String[] property = decodeString.split("=", 2);
                 if (property.length == 2)
                     properties.put(property[0], property[1]);
@@ -43,18 +49,21 @@ public class RawProperties implements Properties{
     }
 
     @Override
-    public Optional<String> getValue(String key) {
-        return Optional.ofNullable(properties.getOrDefault(key,null));
+    public String getValue(@NotNull String key) {
+        return properties.containsKey(key)?properties.get(key):null;
     }
 
-    @Override
-    public void save() throws IOException {
-    }
 
     @Override
     public String toString() {
         return "RawProperties{" +
                 "properties=" + properties +
                 '}';
+    }
+
+    @Nullable
+    @Override
+    public Object save(@NotNull Continuation<? super Unit> $completion) throws IOException {
+        return null;
     }
 }

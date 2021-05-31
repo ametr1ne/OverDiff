@@ -1,97 +1,44 @@
-package com.ametr1ne.overdiff.utils;
+package com.ametr1ne.overdiff.utils
 
-import android.os.AsyncTask;
-import android.os.Build;
+import android.os.AsyncTask
+import com.ametr1ne.overdiff.models.Article
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.*
+import java.util.function.Consumer
 
-import androidx.annotation.RequiresApi;
+class ArticlesActionTask {
 
-import com.ametr1ne.overdiff.MainActivity;
-import com.ametr1ne.overdiff.models.Article;
+    suspend fun getArticles(): Array<Article> {
+        val articleList: MutableList<Article> = ArrayList()
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
-
-public class ArticlesActionTask extends AsyncTask<Void, Void, Article[]> {
-
-
-    private Consumer<Article[]> action;
-
-    public ArticlesActionTask(Consumer<Article[]>action) {
-        this.action = action;
-    }
-
-    @Override
-    protected Article[] doInBackground(Void... voids) {
-
-        List<Article> articleList = new ArrayList<>();
-
-        try {
-            URL url = new URL("http://"+GlobalProperties.KSITE_ADDRESS+"/api/articles");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-                InputStream inputStream;
-                int status = urlConnection.getResponseCode();
-
-                if (status != HttpURLConnection.HTTP_OK)
-                    inputStream = urlConnection.getErrorStream();
-                else
-                    inputStream = urlConnection.getInputStream();
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-
-                String line;
-                StringBuilder stringJson = new StringBuilder();
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringJson.append(line);
-                }
-
-
-                JSONObject jsonObject = new JSONObject(stringJson.toString());
-
-
-                JSONArray jsonArray = jsonObject.getJSONArray("articles");
-
-                for (int i = 0; !jsonArray.isNull(i); i++) {
-
-                    JSONObject obj = jsonArray.getJSONObject(i);
-                    articleList.add(Article.deserialize(obj));
-
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                urlConnection.disconnect();
+        runCatching {
+            val requestUrl = "http://" + GlobalProperties.KSITE_ADDRESS + "/api/articles"
+            val charset = "UTF-8"
+            val multipart = MultipartUtility(requestUrl, charset)
+            val response = multipart.finish()
+            val stringJson = StringBuilder()
+            for (s in response) {
+                stringJson.append(s)
             }
 
+            val jsonObject = JSONObject(stringJson.toString())
+            val jsonArray = jsonObject.getJSONArray("articles")
+            var i = 0
+            while (!jsonArray.isNull(i)) {
+                val obj = jsonArray.getJSONObject(i)
+                articleList.add(Article.deserialize(obj))
+                i++
+            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
-
-        return articleList.toArray(new Article[0]);
-    }
-
-    @Override
-    protected void onPostExecute(Article[] result) {
-        super.onPostExecute(result);
-        action.accept(result);
+        return articleList.toTypedArray()
     }
 
 }

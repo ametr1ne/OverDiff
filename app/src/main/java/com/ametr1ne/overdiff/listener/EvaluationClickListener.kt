@@ -1,36 +1,30 @@
-package com.ametr1ne.overdiff.listener;
+package com.ametr1ne.overdiff.listener
 
-import android.view.View;
+import android.view.View
+import com.ametr1ne.overdiff.models.Article
+import com.ametr1ne.overdiff.models.User
+import com.ametr1ne.overdiff.utils.EvaluationArticleTask
+import com.ametr1ne.overdiff.utils.NConsumer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 
-import com.ametr1ne.overdiff.UserFactory;
-import com.ametr1ne.overdiff.models.Article;
-import com.ametr1ne.overdiff.models.User;
-import com.ametr1ne.overdiff.utils.EvaluationArticleTask;
+class EvaluationClickListener(
+    private val like: Boolean,
+    private val article: Article,
+    private val user: User,
+    private val action: NConsumer<JSONObject>
+) : View.OnClickListener {
+    override fun onClick(v: View) {
+        if (user.isAuthorization) {
 
-import org.json.JSONObject;
-
-import java.util.function.Consumer;
-
-public class EvaluationClickListener implements View.OnClickListener {
-
-    private boolean like;
-    private Article article;
-    private User user;
-
-    private Consumer<JSONObject> action;
-
-    public EvaluationClickListener(boolean like, Article article, User user, Consumer<JSONObject> action) {
-        this.like = like;
-        this.article = article;
-        this.user = user;
-        this.action = action;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(user.isAuthorization()){
-            new EvaluationArticleTask(user.getAccessToken(), article, like, action);
+            CoroutineScope(Dispatchers.Main).launch {
+                val result = EvaluationArticleTask(user.accessToken, article, like).evaluation()
+                if(result!=null){
+                    action.accept(result)
+                }
+            }
         }
-
     }
 }
