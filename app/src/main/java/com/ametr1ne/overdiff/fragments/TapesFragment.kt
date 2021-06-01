@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ametr1ne.overdiff.MainActivity
 import com.ametr1ne.overdiff.R
 import com.ametr1ne.overdiff.UserFactory.Companion.getInstance
-import com.ametr1ne.overdiff.tape.ListAdapter
+import com.ametr1ne.overdiff.tape.ListArticleAdapter
 import com.ametr1ne.overdiff.utils.ArticlesActionTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class TapesFragment(private val mainActivity: MainActivity) : Fragment() {
     override fun onCreateView(
@@ -29,10 +28,9 @@ class TapesFragment(private val mainActivity: MainActivity) : Fragment() {
        CoroutineScope(Dispatchers.IO).launch {
 
            val articles = ArticlesActionTask().getArticles()
-
            withContext(Dispatchers.Main){
-               val listAdapter = ListAdapter(
-                   mainActivity, articles.asList()
+               val listAdapter = ListArticleAdapter(
+                   mainActivity, articles
                )
                recyclerView.adapter = listAdapter
                val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(activity)

@@ -20,7 +20,7 @@ class FileProperties(file: File) : Properties {
         val fwOb = FileWriter(file, false)
         val pwOb = PrintWriter(fwOb, false)
         for ((key, value) in properties) {
-            pwOb.println(String(Base64.encode("$key=$value".toByteArray(), Base64.DEFAULT)))
+            pwOb.println(String(Base64.encode("$key=$value".toByteArray(), Base64.NO_PADDING)).replace("\n",""))
         }
         pwOb.flush()
         pwOb.close()
@@ -56,8 +56,10 @@ class FileProperties(file: File) : Properties {
                 readLine = reader.readLine()
             }
             for (line in lines) {
-                val decodeString = String(Base64.decode(line.toByteArray(), Base64.DEFAULT))
+                val decodeString = String(Base64.decode(line.toByteArray(), Base64.NO_PADDING))
+                println(decodeString)
                 val property = decodeString.split("=", limit = 2).toTypedArray()
+                println("PROP ${property.size}  $property")
                 if (property.size == 2) propertyMap[property[0]] = property[1]
             }
         } catch (e: IOException) {

@@ -1,6 +1,7 @@
 package com.ametr1ne.overdiff.utils
 
 import android.os.AsyncTask
+import android.util.Log
 import com.ametr1ne.overdiff.models.Article
 import org.json.JSONException
 import org.json.JSONObject
@@ -15,11 +16,11 @@ import java.util.function.Consumer
 
 class ArticlesActionTask {
 
-    suspend fun getArticles(): Array<Article> {
+    suspend fun getArticles(): MutableList<Article> {
         val articleList: MutableList<Article> = ArrayList()
 
+        val requestUrl = "http://" + GlobalProperties.KSITE_ADDRESS + "/api/articles"
         runCatching {
-            val requestUrl = "http://" + GlobalProperties.KSITE_ADDRESS + "/api/articles"
             val charset = "UTF-8"
             val multipart = MultipartUtility(requestUrl, charset)
             val response = multipart.finish()
@@ -27,7 +28,6 @@ class ArticlesActionTask {
             for (s in response) {
                 stringJson.append(s)
             }
-
             val jsonObject = JSONObject(stringJson.toString())
             val jsonArray = jsonObject.getJSONArray("articles")
             var i = 0
@@ -37,8 +37,10 @@ class ArticlesActionTask {
                 i++
             }
 
-        }
-        return articleList.toTypedArray()
+        }.getOrElse {
+            Log.e("HTTP ERROR",requestUrl)
+            it.printStackTrace() }
+        return articleList
     }
 
 }

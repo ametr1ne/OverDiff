@@ -23,6 +23,7 @@ class ImageLoadTask(private val url: String) {
             val input = connection.inputStream
             if (input != null) return BitmapFactory.decodeStream(input)
         }.getOrElse {
+            it.printStackTrace()
             if(exceptionHandler!=null)
                 exceptionHandler?.accept(it)
         }

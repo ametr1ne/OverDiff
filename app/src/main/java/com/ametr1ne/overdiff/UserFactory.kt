@@ -1,6 +1,7 @@
 package com.ametr1ne.overdiff
 
 import android.util.Base64
+import android.util.Log
 import com.ametr1ne.overdiff.encryption.SimpleCipher
 import com.ametr1ne.overdiff.models.User
 import com.ametr1ne.overdiff.utils.AuthUserTask
@@ -45,34 +46,28 @@ class UserFactory {
             CoroutineScope(Dispatchers.IO).launch {
                 val authUser = AuthUserTask(userLogin, s).auth()
                 setCurrentUser(authUser)
-                withContext(Dispatchers.Main){ action.accept(currentUser)}
+                withContext(Dispatchers.Main) { action.accept(currentUser) }
                 if (authUser.isAuthorization) {
-                    try {
+
+                    runCatching {
                         val properties = MainActivity.getProperties()
                         properties.setProperties(
-                            "refresh_token", if (!savePassword) null else String(
-                                Base64.encode(
-                                    SimpleCipher.encodePassword(
-                                        authUser.refreshToken.toByteArray()
-                                    ), Base64.DEFAULT
+                            "refresh_token",
+                                Base64.encodeToString(
+                                    SimpleCipher.encodePassword(authUser.refreshToken.toByteArray()),
+                                    Base64.DEFAULT
                                 )
-                            )
                         )
                         properties.setProperties(
                             "user_id",
                             if (!savePassword) null else authUser.id.toString()
                         )
                         properties.setProperties("save", java.lang.Boolean.toString(savePassword))
-                        runCatching {
-                            properties.save()
-                        }
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    } catch (e: IllegalBlockSizeException) {
-                        e.printStackTrace()
-                    } catch (e: BadPaddingException) {
-                        e.printStackTrace()
+                        properties.save()
+                    }.getOrElse {
+                        Log.e("Authorization", "auth current user", it)
                     }
+
                 }
             }
         } catch (e: NoSuchAlgorithmException) {
@@ -111,7 +106,7 @@ class UserFactory {
                                                 SimpleCipher.encodePassword(u.refreshToken.toByteArray()),
                                                 Base64.DEFAULT
                                             )
-                                        )
+                                        ).replace("\n","")
                                     )
                                     properties.setProperties("user_id", u.id.toString())
                                     properties.setProperties(
@@ -119,6 +114,11 @@ class UserFactory {
                                         java.lang.Boolean.toString(save)
                                     )
                                     properties.save()
+
+                                    println("PROPERTIES " + properties)
+
+                                }.getOrElse {
+                                    Log.e("Authorization", "refresh current user", it)
                                 }
                             }
 
@@ -137,10 +137,13 @@ class UserFactory {
 
     fun refreshSavedUser(action: NConsumer<User?>) {
         val properties = MainActivity.getProperties()
+
+        println(properties.toString())
+
         val refreshTokenOptional = properties.getValue("refresh_token")
         val userIdOptional = properties.getValue("user_id")
         if (refreshTokenOptional != null && userIdOptional != null) {
-            try {
+            runCatching {
                 var refreshToken = refreshTokenOptional
                 val userId = userIdOptional.toLong()
                 refreshToken = String(
@@ -181,12 +184,9 @@ class UserFactory {
                         }
                     }
                 }
-            } catch (e: BadPaddingException) {
-                e.printStackTrace()
-            } catch (e: IllegalBlockSizeException) {
-                e.printStackTrace()
-            } catch (e: IllegalArgumentException) {
-                e.printStackTrace()
+            }.getOrElse {
+                Log.e("Authorization", "refresh saved user", it)
+                //TODO делать что-то если не загружены
             }
         }
     }

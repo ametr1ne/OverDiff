@@ -15,8 +15,9 @@ import com.ametr1ne.overdiff.utils.ImageLoadTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ListAdapter(private val source: MainActivity, private val articles: List<Article>) :
+class ListArticleAdapter(private val source: MainActivity, private val articles: List<Article>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -39,14 +40,16 @@ class ListAdapter(private val source: MainActivity, private val articles: List<A
         private val articles: List<Article>,
         private val source: MainActivity
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
         private var article: Article? = null
+
         fun bindView(position: Int) {
             mItemText.text = articles[position].description
 
-            CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 val result = ImageLoadTask(articles[position].icon).upload()
                 result?.let {
-                    mItemImage.setImageBitmap(it)
+                    withContext(Dispatchers.Main) { mItemImage.setImageBitmap(it) }
                 }
             }
             article = articles[position]
@@ -61,8 +64,11 @@ class ListAdapter(private val source: MainActivity, private val articles: List<A
 
         companion object {
             @SuppressLint("StaticFieldLeak")
+            @JvmStatic
             private lateinit var mItemText: TextView
+
             @SuppressLint("StaticFieldLeak")
+            @JvmStatic
             private lateinit var mItemImage: ImageView
         }
 

@@ -36,26 +36,22 @@ class ArticleFragment(private val source: MainActivity, private val articleHash:
         val inflate = inflater.inflate(R.layout.fragment_article, container, false)
         val currentUser = getInstance().getCurrentUser()
 
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val article = ArticleActionTask(articleHash).getArticle()
             if (article != null) {
-                (source.findViewById<View>(R.id.articleText) as TextView).text = article.text
-                (source.findViewById<View>(R.id.articleName) as TextView).text = article.description
 
                 val imageView = source.findViewById(R.id.articleIcon) as ImageView
 
                 ImageLoadTask(article.icon).upload()?.let {
-                    imageView.setImageBitmap(it)
+                    withContext(Dispatchers.Main) { imageView.setImageBitmap(it) }
                 }
 
 
-                source.findViewById<View>(R.id.article_newcomment).visibility =
-                    if (currentUser.isAuthorization) View.VISIBLE else View.INVISIBLE
                 val button = source.findViewById<ImageButton>(R.id.new_comment_button)
                 button.setOnClickListener { v: View? ->
                     val textView = source.findViewById<View>(R.id.new_comment_textview) as TextView
 
-                    CoroutineScope(Dispatchers.Main).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
 
                         val resoult = AddCommentTask(
                             currentUser.accessToken,
@@ -64,51 +60,64 @@ class ArticleFragment(private val source: MainActivity, private val articleHash:
                         ).addComment()
 
                         if (resoult != null) {
-                            source.supportFragmentManager.beginTransaction().replace(
-                                R.id.fragment_container,
-                                ArticleFragment(source, article.hash)
-                            ).commit()
+                            withContext(Dispatchers.Main) {
+                                source.supportFragmentManager.beginTransaction().replace(
+                                    R.id.fragment_container,
+                                    ArticleFragment(source, article.hash)
+                                ).commit()
+                            }
                         } else {
                             //TODO оповестить, что что-то сломалось
                         }
-
                     }
                 }
-                (source.findViewById<View>(R.id.article_like_view) as TextView).setText(
-                    Integer.valueOf(
-                        article.likes
-                    ).toString()
-                )
-                (source.findViewById<View>(R.id.article_dislikes_view) as TextView).setText(
-                    Integer.valueOf(
-                        article.dislikes
-                    ).toString()
-                )
-                val layout = source.findViewById<LinearLayout>(R.id.comment_layout)
-                for (comment in article.comment) {
-                    val view =
-                        LayoutInflater.from(source).inflate(R.layout.preview_comment, layout, false)
-                    val text = view.findViewById<TextView>(R.id.comment_title)
-                    text.text = comment.comment
-                    layout.addView(view)
+
+
+                withContext(Dispatchers.Main) {
+                    source.findViewById<View>(R.id.article_newcomment).visibility =
+                        if (currentUser.isAuthorization) View.VISIBLE else View.INVISIBLE
+                    val layout = source.findViewById<LinearLayout>(R.id.comment_layout)
+                    for (comment in article.comment) {
+                        val view =
+                            LayoutInflater.from(source)
+                                .inflate(R.layout.preview_comment, layout, false)
+                        val text = view.findViewById<TextView>(R.id.comment_title)
+                        text.text = comment.comment
+                        layout.addView(view)
+                    }
+
+                    (source.findViewById<View>(R.id.articleText) as TextView).text = article.text
+                    (source.findViewById<View>(R.id.articleName) as TextView).text =
+                        article.description
+
+                    source.findViewById<View>(R.id.article_like_button)
+                        .setOnClickListener { v: View? ->
+                            evaluationArticle(
+                                currentUser,
+                                article,
+                                true
+                            )
+                        }
+                    source.findViewById<View>(R.id.article_dislike_button)
+                        .setOnClickListener { v: View? ->
+                            evaluationArticle(
+                                currentUser,
+                                article,
+                                false
+                            )
+                        }
+
+                    (source.findViewById<View>(R.id.article_like_view) as TextView).text =
+                        Integer.valueOf(
+                            article.likes
+                        ).toString()
+                    (source.findViewById<View>(R.id.article_dislikes_view) as TextView).text =
+                        Integer.valueOf(
+                            article.dislikes
+                        ).toString()
+
                 }
 
-                source.findViewById<View>(R.id.article_like_button)
-                    .setOnClickListener { v: View? ->
-                        evaluationArticle(
-                            currentUser,
-                            article,
-                            true
-                        )
-                    }
-                source.findViewById<View>(R.id.article_dislike_button)
-                    .setOnClickListener { v: View? ->
-                        evaluationArticle(
-                            currentUser,
-                            article,
-                            false
-                        )
-                    }
             } else {
                 //TODO оповестить, что произошла ошибка при загрзке статьи
             }
@@ -128,13 +137,13 @@ class ArticleFragment(private val source: MainActivity, private val articleHash:
                     EvaluationArticleTask(currentUser.accessToken, article!!, like).evaluation()
 
 
-                if(jsonObject!=null) {
+                if (jsonObject != null) {
                     try {
                         val status: Int = jsonObject.getInt("status")
                         if (status == ArticleStatus.SUCCESSFULLY) {
                             val likes: Int = jsonObject.getInt("likes")
                             val dislikes: Int = jsonObject.getInt("dislikes")
-                            withContext(Dispatchers.Main){
+                            withContext(Dispatchers.Main) {
                                 (source.findViewById<View>(R.id.article_like_view) as TextView).text =
                                     likes.toString()
                                 (source.findViewById<View>(R.id.article_dislikes_view) as TextView).text =
