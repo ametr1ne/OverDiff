@@ -42,6 +42,12 @@ class ListArticleAdapter(private val source: MainActivity, private val articles:
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private var article: Article? = null
+        private var mItemText: TextView = itemView.findViewById<View>(R.id.title_article) as TextView
+        private var mItemImage: ImageView = itemView.findViewById<View>(R.id.image_preview) as ImageView
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bindView(position: Int) {
             mItemText.text = articles[position].description
@@ -62,20 +68,6 @@ class ListArticleAdapter(private val source: MainActivity, private val articles:
             ).addToBackStack("tag").commit()
         }
 
-        companion object {
-            @SuppressLint("StaticFieldLeak")
-            @JvmStatic
-            private lateinit var mItemText: TextView
 
-            @SuppressLint("StaticFieldLeak")
-            @JvmStatic
-            private lateinit var mItemImage: ImageView
-        }
-
-        init {
-            mItemText = itemView.findViewById<View>(R.id.title_article) as TextView
-            mItemImage = itemView.findViewById<View>(R.id.image_preview) as ImageView
-            itemView.setOnClickListener(this)
-        }
     }
 }
